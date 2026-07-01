@@ -2,6 +2,8 @@ package com.bmarche.pro
 
 import android.app.Application
 import com.bmarche.pro.data.repository.BMarcheRepository
+import com.bmarche.pro.notif.AlertesWorker
+import com.bmarche.pro.notif.NotificationHelper
 
 /**
  * Application unique. Expose une instance partagée du [BMarcheRepository] pour éviter,
@@ -9,4 +11,10 @@ import com.bmarche.pro.data.repository.BMarcheRepository
  */
 class BMarcheApplication : Application() {
     val repository: BMarcheRepository by lazy { BMarcheRepository(this) }
+
+    override fun onCreate() {
+        super.onCreate()
+        NotificationHelper.creerCanal(this)
+        AlertesWorker.planifier(this)
+    }
 }

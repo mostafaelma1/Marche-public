@@ -16,7 +16,9 @@ data class ProfilAlerte(
     val villes: Set<String> = emptySet(),
     val budgetMin: Double = 0.0,
     val budgetMax: Double = 0.0,
-    val motsCles: String = ""
+    val motsCles: String = "",
+    /** Numéro WhatsApp au format international (ex : 2126…), pour recevoir les récaps. */
+    val whatsapp: String = ""
 ) {
     /** Un profil est "actif" dès qu'un critère d'alerte est renseigné. */
     val estConfigure: Boolean
@@ -33,6 +35,7 @@ class ProfilStore(private val context: Context) {
         val BUDGET_MIN = doublePreferencesKey("budget_min")
         val BUDGET_MAX = doublePreferencesKey("budget_max")
         val MOTS_CLES = stringPreferencesKey("mots_cles")
+        val WHATSAPP = stringPreferencesKey("whatsapp")
     }
 
     val profil: Flow<ProfilAlerte> = context.dataStore.data.map { prefs ->
@@ -41,7 +44,8 @@ class ProfilStore(private val context: Context) {
             villes = prefs[Keys.VILLES].orEmpty(),
             budgetMin = prefs[Keys.BUDGET_MIN] ?: 0.0,
             budgetMax = prefs[Keys.BUDGET_MAX] ?: 0.0,
-            motsCles = prefs[Keys.MOTS_CLES].orEmpty()
+            motsCles = prefs[Keys.MOTS_CLES].orEmpty(),
+            whatsapp = prefs[Keys.WHATSAPP].orEmpty()
         )
     }
 
@@ -52,6 +56,7 @@ class ProfilStore(private val context: Context) {
             prefs[Keys.BUDGET_MIN] = profil.budgetMin
             prefs[Keys.BUDGET_MAX] = profil.budgetMax
             prefs[Keys.MOTS_CLES] = profil.motsCles
+            prefs[Keys.WHATSAPP] = profil.whatsapp
         }
     }
 }

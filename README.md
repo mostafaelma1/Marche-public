@@ -19,9 +19,11 @@ TPE/PME marocaines.
 | 6 | Favoris (persistés) | ✅ |
 | 7 | Analyse de la concurrence (historique sociétés) | ✅ |
 | 8 | Profil d'alertes (secteurs, villes, budget, mots-clés) | ✅ |
+| 9 | **Notifications locales** d'alertes (gratuit, WorkManager) | ✅ |
+| 10 | **Alertes / partage WhatsApp** (récap + partage par marché, gratuit) | ✅ |
+| 11 | **Téléchargement du dossier de chaque marché en PDF** | ✅ |
 
 ### À venir (prochaines étapes)
-- Notifications & alertes WhatsApp sur nouveaux marchés correspondant au profil
 - Générateur de documents (lettre d'engagement, notes moyens humains/techniques,
   méthodologie, planning, bordereau, demande de caution)
 - Connexion à une source réelle de marchés (API / portail) + résultats publiés

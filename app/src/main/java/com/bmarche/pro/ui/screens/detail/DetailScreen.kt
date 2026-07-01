@@ -13,7 +13,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
@@ -30,9 +32,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bmarche.pro.dossier.DossierPdfGenerator
+import com.bmarche.pro.share.WhatsApp
 import com.bmarche.pro.ui.Format
 import com.bmarche.pro.ui.components.Badge
 import com.bmarche.pro.ui.components.LigneInfo
@@ -50,6 +55,7 @@ fun DetailScreen(
     val vm = repositoryViewModel { DetailViewModel(it, aoId) }
     val state by vm.state.collectAsStateWithLifecycle()
     val ao = state.ao
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -127,6 +133,20 @@ fun DetailScreen(
             ) {
                 Icon(Icons.Filled.Checklist, contentDescription = null)
                 Text("  Dossier administratif — ${state.piecesPretes}/${state.piecesTotal} prêt(s)")
+            }
+            FilledTonalButton(
+                onClick = { DossierPdfGenerator.telecharger(context, ao, state.etats) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Download, contentDescription = null)
+                Text("  Télécharger le dossier (PDF)")
+            }
+            OutlinedButton(
+                onClick = { WhatsApp.partager(context, WhatsApp.texteMarche(ao)) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Chat, contentDescription = null)
+                Text("  Partager sur WhatsApp")
             }
 
             // Analyse concurrence.

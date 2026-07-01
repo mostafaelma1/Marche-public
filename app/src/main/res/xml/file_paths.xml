@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Dossiers PDF générés puis partagés/ouverts via FileProvider. -->
+    <external-files-path name="dossiers" path="dossiers/" />
+    <files-path name="dossiers_internes" path="dossiers/" />
+    <cache-path name="cache_dossiers" path="dossiers/" />
+</paths>

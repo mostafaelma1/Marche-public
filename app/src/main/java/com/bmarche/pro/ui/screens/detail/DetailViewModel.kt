@@ -17,6 +17,7 @@ data class DetailUiState(
     val ao: AppelOffre? = null,
     val concurrents: List<Societe> = emptyList(),
     val estFavori: Boolean = false,
+    val etats: Map<String, EtatPiece> = emptyMap(),
     val piecesPretes: Int = 0,
     val piecesTotal: Int = DossierType.piecesStandard.size,
     /** Rabais moyen des concurrents probables, en % (null si inconnu). */
@@ -48,7 +49,7 @@ class DetailViewModel(
         viewModelScope.launch {
             repo.checklist(aoId).collect { map ->
                 val pretes = map.values.count { it == EtatPiece.PRET }
-                _state.update { it.copy(piecesPretes = pretes) }
+                _state.update { it.copy(etats = map, piecesPretes = pretes) }
             }
         }
     }
