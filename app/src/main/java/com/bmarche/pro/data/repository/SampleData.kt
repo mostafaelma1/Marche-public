@@ -65,7 +65,13 @@ object SampleData {
             cautionProvisoireDh = 40_000.0,
             dateLimiteEpoch = maintenant + 12 * JOUR,
             descriptif = "Préparation et livraison de repas pour internats scolaires. Marché reconductible.",
-            concurrentsProbables = listOf("s2")
+            concurrentsProbables = listOf("s2"),
+            piecesDossier = listOf(
+                "Règlement de consultation",
+                "Cahier des prescriptions spéciales (CPS)",
+                "Bordereau des prix — détail estimatif",
+                "Modèle d'acte d'engagement"
+            )
         ),
         AppelOffre(
             id = "ao2",
@@ -130,7 +136,13 @@ object SampleData {
             cautionProvisoireDh = 55_000.0,
             dateLimiteEpoch = maintenant + 15 * JOUR,
             descriptif = "Réfection de 4 km de voirie, marquage et signalisation.",
-            concurrentsProbables = listOf("s3")
+            concurrentsProbables = listOf("s3"),
+            piecesDossier = listOf(
+                "Règlement de consultation",
+                "Cahier des prescriptions spéciales (CPS)",
+                "Bordereau des prix",
+                "Plans et métrés"
+            )
         ),
         AppelOffre(
             id = "ao7",

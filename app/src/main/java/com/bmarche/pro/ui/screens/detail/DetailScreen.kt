@@ -36,7 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bmarche.pro.dossier.DossierPdfGenerator
+import com.bmarche.pro.dossier.DossierGenerator
 import com.bmarche.pro.share.WhatsApp
 import com.bmarche.pro.ui.Format
 import com.bmarche.pro.ui.components.Badge
@@ -135,11 +135,11 @@ fun DetailScreen(
                 Text("  Dossier administratif — ${state.piecesPretes}/${state.piecesTotal} prêt(s)")
             }
             FilledTonalButton(
-                onClick = { DossierPdfGenerator.telecharger(context, ao, state.etats) },
+                onClick = { DossierGenerator.telecharger(context, ao, state.etats) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Download, contentDescription = null)
-                Text("  Télécharger le dossier (PDF)")
+                Text("  Télécharger le dossier (${DossierGenerator.formatLabel(ao)})")
             }
             OutlinedButton(
                 onClick = { WhatsApp.partager(context, WhatsApp.texteMarche(ao)) },

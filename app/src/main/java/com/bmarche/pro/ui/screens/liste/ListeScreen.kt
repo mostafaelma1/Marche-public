@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -22,11 +21,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.ui.components.AppelOffreCard
+import com.bmarche.pro.ui.components.HeroHeader
+import com.bmarche.pro.ui.components.SectionTitle
+import com.bmarche.pro.ui.components.StatPill
 import com.bmarche.pro.ui.repositoryViewModel
 
 @Composable
@@ -48,11 +49,24 @@ fun ListeScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
+            HeroHeader(
+                titre = "Marchés publics",
+                sousTitre = "Trouvez le bon marché et visez le juste prix."
+            ) {
+                StatPill(valeur = "${state.resultats.size}", libelle = "marchés")
+                if (state.recommandes.isNotEmpty()) {
+                    StatPill(valeur = "${state.recommandes.size}", libelle = "pour vous")
+                }
+            }
+        }
+
+        item {
             OutlinedTextField(
                 value = state.recherche,
                 onValueChange = vm::onRecherche,
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
+                shape = MaterialTheme.shapes.large,
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                 placeholder = { Text("Rechercher un marché, un acheteur…") }
             )
@@ -74,17 +88,7 @@ fun ListeScreen(
 
         if (state.recommandes.isNotEmpty()) {
             item {
-                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Filled.NotificationsActive,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
-                    Text(
-                        text = "  Recommandés pour vous (${state.recommandes.size})",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
+                SectionTitle("Recommandés pour vous (${state.recommandes.size})")
             }
             items(state.recommandes, key = { "reco-${it.id}" }) { ao ->
                 AppelOffreCard(
@@ -95,11 +99,7 @@ fun ListeScreen(
                 )
             }
             item {
-                Text(
-                    text = "Tous les marchés (${state.resultats.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
+                SectionTitle("Tous les marchés (${state.resultats.size})")
             }
         }
 

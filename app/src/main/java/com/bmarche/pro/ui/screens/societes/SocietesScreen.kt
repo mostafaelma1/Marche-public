@@ -45,10 +45,9 @@ fun SocietesScreen(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            Text(
-                "Historique des sociétés concurrentes, classées par nombre de marchés remportés.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            com.bmarche.pro.ui.components.HeroHeader(
+                titre = "Concurrence",
+                sousTitre = "Historique des sociétés, classées par marchés remportés."
             )
         }
         items(societes, key = { it.id }) { soc ->

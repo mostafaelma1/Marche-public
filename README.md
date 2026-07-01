@@ -19,9 +19,19 @@ TPE/PME marocaines.
 | 6 | Favoris (persistés) | ✅ |
 | 7 | Analyse de la concurrence (historique sociétés) | ✅ |
 | 8 | Profil d'alertes (secteurs, villes, budget, mots-clés) | ✅ |
-| 9 | **Notifications locales** d'alertes (gratuit, WorkManager) | ✅ |
+| 9 | **Notifications locales** d'alertes (gratuit, sans Google Play Services) | ✅ |
 | 10 | **Alertes / partage WhatsApp** (récap + partage par marché, gratuit) | ✅ |
-| 11 | **Téléchargement du dossier de chaque marché en PDF** | ✅ |
+| 11 | **Téléchargement du dossier** de chaque marché : **PDF** (1 pièce) ou **ZIP** (plusieurs pièces) | ✅ |
+| 12 | **Design pro** : bandeaux dégradés, cartes à accent par secteur, icônes de domaine | ✅ |
+
+### Compatibilité
+
+- **Android 7.0+ (API 24)** — couvre la quasi-totalité du parc.
+- Les **notifications fonctionnent sur toutes les versions** : sur Android < 13 elles
+  sont actives par défaut ; sur Android 13+ une simple autorisation est demandée.
+- **Aucune dépendance à Google Play Services / Firebase** : les alertes reposent sur
+  WorkManager + notifications locales, donc l'app fonctionne aussi sur les téléphones
+  **sans services Google** (Huawei, etc.).
 
 ### À venir (prochaines étapes)
 - Générateur de documents (lettre d'engagement, notes moyens humains/techniques,

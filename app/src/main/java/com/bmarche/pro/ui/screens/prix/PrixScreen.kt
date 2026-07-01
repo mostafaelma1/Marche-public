@@ -58,7 +58,10 @@ fun PrixScreen(
             ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Calcul du prix de référence", style = MaterialTheme.typography.headlineSmall)
+        com.bmarche.pro.ui.components.HeroHeader(
+            titre = "Prix de référence",
+            sousTitre = "Analysez votre prix face à l'estimation et aux habitudes du secteur."
+        )
         state.aoAssocie?.let {
             Text(
                 "Marché : ${it.objet}",

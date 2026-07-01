@@ -19,5 +19,11 @@ data class AppelOffre(
     val dateLimiteEpoch: Long,
     val descriptif: String = "",
     /** Identifiants des sociétés historiquement actives sur ce type de marché. */
-    val concurrentsProbables: List<String> = emptyList()
+    val concurrentsProbables: List<String> = emptyList(),
+    /**
+     * Pièces composant le dossier de consultation (DCE) fourni par l'acheteur.
+     * Si la liste contient plusieurs pièces, le dossier est téléchargé en ZIP ;
+     * sinon une simple fiche PDF est générée.
+     */
+    val piecesDossier: List<String> = emptyList()
 )

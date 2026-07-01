@@ -7,7 +7,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,11 +40,6 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
     val estOnglet = topDest != null
 
     Scaffold(
-        topBar = {
-            if (estOnglet) {
-                TopAppBar(title = { Text(titrePourOnglet(topDest!!)) })
-            }
-        },
         bottomBar = {
             if (estOnglet) {
                 NavigationBar {
@@ -141,12 +135,4 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
             }
         }
     }
-}
-
-private fun titrePourOnglet(dest: TopDestination): String = when (dest) {
-    TopDestination.LISTE -> "Marchés publics"
-    TopDestination.FAVORIS -> "Mes favoris"
-    TopDestination.SOCIETES -> "Concurrence"
-    TopDestination.PRIX -> "Prix de référence"
-    TopDestination.PROFIL -> "Mon profil"
 }

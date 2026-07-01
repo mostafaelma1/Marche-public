@@ -62,6 +62,12 @@ fun FavorisScreen(
         ),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        item {
+            com.bmarche.pro.ui.components.HeroHeader(
+                titre = "Mes favoris",
+                sousTitre = "Les marchés que vous suivez de près."
+            )
+        }
         items(favoris, key = { it.id }) { ao ->
             AppelOffreCard(
                 ao = ao,

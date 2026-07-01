@@ -69,11 +69,9 @@ fun ProfilScreen(
             ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Mes alertes", style = MaterialTheme.typography.headlineSmall)
-        Text(
-            "Configurez vos critères pour recevoir en priorité les marchés qui vous concernent.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+        com.bmarche.pro.ui.components.HeroHeader(
+            titre = "Mes alertes",
+            sousTitre = "Configurez vos critères pour être alerté des marchés qui vous concernent."
         )
 
         Card(
