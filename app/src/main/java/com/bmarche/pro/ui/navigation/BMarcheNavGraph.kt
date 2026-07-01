@@ -1,16 +1,29 @@
 package com.bmarche.pro.ui.navigation
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -22,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
+import com.bmarche.pro.ui.icone
 import com.bmarche.pro.ui.screens.accueil.AccueilScreen
 import com.bmarche.pro.ui.screens.checklist.ChecklistScreen
 import com.bmarche.pro.ui.screens.detail.DetailScreen
@@ -44,6 +58,49 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
     val topDest = TopDestination.entries.firstOrNull { it.route == baseRoute }
     val estOnglet = topDest != null
 
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = estOnglet,
+        drawerContent = {
+            ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface) {
+                Column(Modifier.padding(horizontal = 16.dp, vertical = 20.dp)) {
+                    Text(
+                        "BMarche Pro",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "Marchés publics du Maroc",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                Text(
+                    "CATÉGORIES",
+                    modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp),
+                    style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.2.sp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                TypePublication.entries.forEach { type ->
+                    NavigationDrawerItem(
+                        label = { Text(type.labelFr) },
+                        icon = { Icon(type.icone(), contentDescription = null) },
+                        selected = false,
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(Routes.liste(type = type.name))
+                        },
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
+            }
+        }
+    ) {
     Scaffold(
         bottomBar = {
             if (estOnglet) {
@@ -79,8 +136,8 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                     onOuvrirRegion = { region ->
                         navController.navigate(Routes.liste(region = region.name, type = TypePublication.MARCHE_PUBLIC.name))
                     },
-                    onOuvrirType = { type -> navController.navigate(Routes.liste(type = type.name)) },
                     onOuvrirTous = { navController.navigate(Routes.liste()) },
+                    onOuvrirMenu = { scope.launch { drawerState.open() } },
                     modifier = Modifier.padding(padding)
                 )
             }
@@ -180,5 +237,6 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                 )
             }
         }
+    }
     }
 }

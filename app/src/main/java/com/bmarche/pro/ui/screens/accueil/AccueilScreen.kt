@@ -1,7 +1,6 @@
 package com.bmarche.pro.ui.screens.accueil
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,12 +17,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,24 +37,28 @@ import androidx.compose.ui.unit.sp
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
-import com.bmarche.pro.ui.icone
+import com.bmarche.pro.data.repository.FiltreAppelOffre
+import com.bmarche.pro.ui.Format
 
 /**
  * Page d'accueil — style « enterprise » sobre : une seule couleur d'accent (bleu),
- * surfaces blanches à liseré fin, hiérarchie typographique nette, aucun bloc criard.
+ * surfaces blanches à liseré fin. Les catégories de publications sont accessibles
+ * via le menu latéral, l'accueil reste dédié aux régions.
  */
 @Composable
 fun AccueilScreen(
     onOuvrirRegion: (Region) -> Unit,
-    onOuvrirType: (TypePublication) -> Unit,
     onOuvrirTous: () -> Unit,
+    onOuvrirMenu: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val app = LocalContext.current.applicationContext as BMarcheApplication
     val total = app.repository.totalMarches()
     val comptes = app.repository.comptesParRegion()
-    val comptesType = app.repository.comptesParType()
+    val urgents = app.repository
+        .appelsOffres(FiltreAppelOffre(type = TypePublication.MARCHE_PUBLIC))
+        .count { Format.joursRestants(it.dateLimiteEpoch) <= 7 }
     val regions = Region.entries.sortedByDescending { comptes[it] ?: 0 }
 
     LazyVerticalGrid(
@@ -63,26 +66,35 @@ fun AccueilScreen(
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(
             start = 16.dp, end = 16.dp,
-            top = 16.dp + contentPadding.calculateTopPadding(),
+            top = 8.dp + contentPadding.calculateTopPadding(),
             bottom = 24.dp + contentPadding.calculateBottomPadding()
         ),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // En-tête sobre.
+        // En-tête sobre + accès au menu latéral.
         item(span = { GridItemSpan(maxLineSpan) }) {
-            Column {
-                Text(
-                    "Marchés publics",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    "Suivez les appels d'offres et préparez vos soumissions",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        "Marchés publics",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        "Suivez les appels d'offres et préparez vos soumissions",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                IconButton(onClick = onOuvrirMenu) {
+                    Icon(
+                        Icons.Filled.Menu,
+                        contentDescription = "Menu",
+                        tint = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
 
@@ -118,8 +130,8 @@ fun AccueilScreen(
         item(span = { GridItemSpan(maxLineSpan) }) {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 StatCard("$total", "Marchés actifs", Modifier.weight(1f))
+                StatCard("$urgents", "Clôture ≤ 7 j", Modifier.weight(1f))
                 StatCard("${Region.entries.size}", "Régions", Modifier.weight(1f))
-                StatCard("${TypePublication.entries.size}", "Catégories", Modifier.weight(1f))
             }
         }
 
@@ -131,33 +143,6 @@ fun AccueilScreen(
                 compte = comptes[region] ?: 0,
                 onClick = { onOuvrirRegion(region) }
             )
-        }
-
-        item(span = { GridItemSpan(maxLineSpan) }) { SectionLabel("CATÉGORIES", topPadding = 8.dp) }
-
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            Card(
-                shape = RoundedCornerShape(14.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-            ) {
-                Column {
-                    TypePublication.entries.forEachIndexed { index, type ->
-                        TypeRow(
-                            type = type,
-                            compte = comptesType[type] ?: 0,
-                            onClick = { onOuvrirType(type) }
-                        )
-                        if (index != TypePublication.entries.lastIndex) {
-                            HorizontalDivider(
-                                modifier = Modifier.padding(start = 48.dp),
-                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -235,43 +220,5 @@ private fun RegionCard(region: Region, compte: Int, onClick: () -> Unit) {
                 )
             }
         }
-    }
-}
-
-/** Ligne de catégorie : icône discrète, libellé, compteur, chevron. */
-@Composable
-private fun TypeRow(type: TypePublication, compte: Int, onClick: () -> Unit) {
-    Row(
-        Modifier
-            .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 14.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            type.icone(),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(Modifier.width(12.dp))
-        Text(
-            type.labelFr,
-            modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Text(
-            "$compte",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(Modifier.width(4.dp))
-        Icon(
-            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.outline,
-            modifier = Modifier.size(20.dp)
-        )
     }
 }
