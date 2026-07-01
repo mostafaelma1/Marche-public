@@ -1,5 +1,6 @@
 package com.bmarche.pro.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,25 +12,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-/** Dégradé de marque dérivé de la couleur primaire du thème (compatible Material You). */
-@Composable
-fun brandGradient(): Brush {
-    val primary = MaterialTheme.colorScheme.primary
-    return Brush.linearGradient(listOf(primary, lerp(primary, Color.Black, 0.32f)))
-}
-
-/** Bandeau de marque dégradé, utilisé en tête des écrans principaux. */
+/**
+ * En-tête d'écran sobre : titre + sous-titre sur le fond, sans bloc coloré.
+ * (Conserve la même signature qu'avant pour ne pas toucher les écrans appelants.)
+ */
 @Composable
 fun HeroHeader(
     titre: String,
@@ -37,51 +32,55 @@ fun HeroHeader(
     modifier: Modifier = Modifier,
     contenu: (@Composable () -> Unit)? = null
 ) {
-    val onColor = MaterialTheme.colorScheme.onPrimary
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(brandGradient())
-            .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Text(
             text = titre,
             style = MaterialTheme.typography.headlineSmall,
-            color = onColor,
-            fontWeight = FontWeight.Bold
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text = sousTitre,
             style = MaterialTheme.typography.bodyMedium,
-            color = onColor.copy(alpha = 0.85f)
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         contenu?.let {
             Row(
-                modifier = Modifier.padding(top = 6.dp),
+                modifier = Modifier.padding(top = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) { it() }
         }
     }
 }
 
-/** Petite statistique affichée dans le bandeau (chiffre + libellé). */
+/** Indicateur compact : chiffre + libellé sur carte blanche à liseré fin. */
 @Composable
 fun StatPill(valeur: String, libelle: String, modifier: Modifier = Modifier) {
-    val onColor = MaterialTheme.colorScheme.onPrimary
-    Column(
-        modifier = modifier
-            .clip(RoundedCornerShape(14.dp))
-            .background(onColor.copy(alpha = 0.18f))
-            .padding(horizontal = 14.dp, vertical = 8.dp)
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Text(valeur, style = MaterialTheme.typography.titleMedium, color = onColor, fontWeight = FontWeight.Bold)
-        Text(libelle, style = MaterialTheme.typography.labelMedium, color = onColor.copy(alpha = 0.85f))
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 8.dp)) {
+            Text(
+                valeur,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                libelle,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
 
-/** Titre de section avec petit liseré coloré. */
+/** Titre de section avec fin liseré d'accent. */
 @Composable
 fun SectionTitle(texte: String, modifier: Modifier = Modifier) {
     Row(
@@ -91,8 +90,8 @@ fun SectionTitle(texte: String, modifier: Modifier = Modifier) {
     ) {
         Box(
             Modifier
-                .width(4.dp)
-                .height(18.dp)
+                .width(3.dp)
+                .height(16.dp)
                 .clip(RoundedCornerShape(50))
                 .background(MaterialTheme.colorScheme.primary)
         )

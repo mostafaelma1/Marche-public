@@ -1,44 +1,49 @@
 package com.bmarche.pro.ui.screens.accueil
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
-import com.bmarche.pro.ui.components.brandGradient
-import com.bmarche.pro.ui.emblem
 import com.bmarche.pro.ui.icone
-import com.bmarche.pro.ui.theme.RegionColors
 
+/**
+ * Page d'accueil — style « enterprise » sobre : une seule couleur d'accent (bleu),
+ * surfaces blanches à liseré fin, hiérarchie typographique nette, aucun bloc criard.
+ */
 @Composable
 fun AccueilScreen(
     onOuvrirRegion: (Region) -> Unit,
@@ -54,186 +59,219 @@ fun AccueilScreen(
     val regions = Region.entries.sortedByDescending { comptes[it] ?: 0 }
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(
             start = 16.dp, end = 16.dp,
-            top = 12.dp + contentPadding.calculateTopPadding(),
-            bottom = 16.dp + contentPadding.calculateBottomPadding()
+            top = 16.dp + contentPadding.calculateTopPadding(),
+            bottom = 24.dp + contentPadding.calculateBottomPadding()
         ),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
-            TotalCard(total = total, onRecherche = onOuvrirTous)
+        // En-tête sobre.
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Column {
+                Text(
+                    "Marchés publics",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    "Suivez les appels d'offres et préparez vos soumissions",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
-        item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
-            Text(
-                "Marchés par région",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
+
+        // Barre de recherche (ouvre la liste globale).
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Surface(
+                onClick = onOuvrirTous,
+                shape = RoundedCornerShape(14.dp),
+                color = MaterialTheme.colorScheme.surface,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+            ) {
+                Row(
+                    Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Filled.Search,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Text(
+                        "Rechercher un marché, un acheteur…",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         }
+
+        // Indicateurs clés, compacts.
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                StatCard("$total", "Marchés actifs", Modifier.weight(1f))
+                StatCard("${Region.entries.size}", "Régions", Modifier.weight(1f))
+                StatCard("${TypePublication.entries.size}", "Catégories", Modifier.weight(1f))
+            }
+        }
+
+        item(span = { GridItemSpan(maxLineSpan) }) { SectionLabel("RÉGIONS") }
+
         items(regions, key = { it.name }) { region ->
-            RegionTile(
+            RegionCard(
                 region = region,
                 compte = comptes[region] ?: 0,
-                couleur = RegionColors[region.ordinal % RegionColors.size],
                 onClick = { onOuvrirRegion(region) }
             )
         }
-        item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
+
+        item(span = { GridItemSpan(maxLineSpan) }) { SectionLabel("CATÉGORIES", topPadding = 8.dp) }
+
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Card(
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+            ) {
+                Column {
+                    TypePublication.entries.forEachIndexed { index, type ->
+                        TypeRow(
+                            type = type,
+                            compte = comptesType[type] ?: 0,
+                            onClick = { onOuvrirType(type) }
+                        )
+                        if (index != TypePublication.entries.lastIndex) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(start = 48.dp),
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Libellé de section discret, en petites capitales espacées. */
+@Composable
+private fun SectionLabel(texte: String, topPadding: androidx.compose.ui.unit.Dp = 4.dp) {
+    Text(
+        texte,
+        modifier = Modifier.padding(top = topPadding),
+        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.2.sp),
+        color = MaterialTheme.colorScheme.onSurfaceVariant
+    )
+}
+
+/** Indicateur compact : chiffre + libellé, sur carte blanche à liseré fin. */
+@Composable
+private fun StatCard(valeur: String, libelle: String, modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(14.dp),
+        color = MaterialTheme.colorScheme.surface,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+    ) {
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 12.dp)) {
             Text(
-                "Catégories",
-                modifier = Modifier.padding(top = 8.dp),
-                style = MaterialTheme.typography.titleMedium,
+                valeur,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.SemiBold
             )
-        }
-        items(
-            TypePublication.entries,
-            key = { it.name },
-            span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }
-        ) { type ->
-            TypeRow(
-                type = type,
-                compte = comptesType[type] ?: 0,
-                onClick = { onOuvrirType(type) }
-            )
-        }
-    }
-}
-
-@Composable
-private fun TypeRow(type: TypePublication, compte: Int, onClick: () -> Unit) {
-    androidx.compose.material3.Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 1.dp),
-        colors = androidx.compose.material3.CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
-        )
-    ) {
-        Row(
-            Modifier.padding(14.dp).fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(type.icone(), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-            }
             Text(
-                type.labelFr,
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium
+                libelle,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                    .padding(horizontal = 10.dp, vertical = 4.dp)
-            ) {
-                Text(
-                    compte.toString(),
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            }
         }
     }
 }
 
+/** Carte région : nom + nombre de marchés. Sobre, sans icône ni couleur criarde. */
 @Composable
-private fun TotalCard(total: Int, onRecherche: () -> Unit) {
-    val onColor = MaterialTheme.colorScheme.onPrimary
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(brandGradient())
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+private fun RegionCard(region: Region, compte: Int, onClick: () -> Unit) {
+    Card(
+        onClick = onClick,
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Text(
-            total.toString(),
-            style = MaterialTheme.typography.displaySmall.copy(fontSize = 46.sp),
-            color = onColor,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            "Total des marchés publics",
-            style = MaterialTheme.typography.bodyMedium,
-            color = onColor.copy(alpha = 0.9f)
-        )
-        Row(
-            modifier = Modifier
-                .padding(top = 12.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(16.dp))
-                .background(onColor.copy(alpha = 0.18f))
-                .clickable(onClick = onRecherche)
-                .padding(horizontal = 14.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Icon(Icons.Filled.Search, contentDescription = null, tint = onColor)
-            Text("Rechercher dans tous les marchés", color = onColor, style = MaterialTheme.typography.bodyMedium)
-        }
-    }
-}
-
-@Composable
-private fun RegionTile(region: Region, compte: Int, couleur: Color, onClick: () -> Unit) {
-    Column(
-        modifier = Modifier.clickable(onClick = onClick),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
-        Box(contentAlignment = Alignment.TopEnd) {
-            Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .clip(CircleShape)
-                    .background(Brush.linearGradient(listOf(couleur, couleur.copy(alpha = 0.75f)))),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    region.emblem(),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(34.dp)
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondary)
-                    .padding(horizontal = 7.dp, vertical = 3.dp),
-                contentAlignment = Alignment.Center
-            ) {
+        Column(Modifier.padding(14.dp).fillMaxWidth()) {
+            Text(
+                region.labelFr,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                minLines = 2,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(Modifier.height(8.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    compte.toString(),
-                    color = MaterialTheme.colorScheme.onSecondary,
-                    style = MaterialTheme.typography.labelMedium,
+                    "$compte",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(Modifier.width(4.dp))
+                Text(
+                    if (compte == 1) "marché" else "marchés",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
+    }
+}
+
+/** Ligne de catégorie : icône discrète, libellé, compteur, chevron. */
+@Composable
+private fun TypeRow(type: TypePublication, compte: Int, onClick: () -> Unit) {
+    Row(
+        Modifier
+            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp, vertical = 14.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            type.icone(),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(20.dp)
+        )
+        Spacer(Modifier.width(12.dp))
         Text(
-            region.labelFr,
-            style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            color = MaterialTheme.colorScheme.onBackground
+            type.labelFr,
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            "$compte",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.width(4.dp))
+        Icon(
+            Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.outline,
+            modifier = Modifier.size(20.dp)
         )
     }
 }
