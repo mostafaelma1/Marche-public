@@ -54,9 +54,13 @@ fun ProfilScreen(
         ActivityResultContracts.RequestPermission()
     ) { accorde ->
         if (accorde) {
-            NotificationHelper.notifierMarches(context, vm.marchesCorrespondants())
+            NotificationHelper.notifierTest(context, vm.marchesCorrespondants())
         } else {
-            Toast.makeText(context, "Autorisez les notifications pour recevoir les alertes.", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Notifications refusées. Activez-les dans Paramètres > Applications > BMarche Pro.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
     val state by vm.state.collectAsStateWithLifecycle()
@@ -188,11 +192,8 @@ fun ProfilScreen(
 
         OutlinedButton(
             onClick = {
-                val marches = vm.marchesCorrespondants()
-                if (marches.isEmpty()) {
-                    Toast.makeText(context, "Aucun marché ne correspond pour l'instant.", Toast.LENGTH_SHORT).show()
-                } else if (NotificationHelper.peutNotifier(context)) {
-                    NotificationHelper.notifierMarches(context, marches)
+                if (NotificationHelper.peutNotifier(context)) {
+                    NotificationHelper.notifierTest(context, vm.marchesCorrespondants())
                 } else {
                     demanderPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                 }

@@ -20,7 +20,8 @@ import com.bmarche.pro.ui.Format
 /** Gestion des notifications locales d'alertes de marchés (gratuit, sans backend). */
 object NotificationHelper {
 
-    private const val CHANNEL_ID = "alertes_marches"
+    // v2 : nouvelle importance (HIGH) — un canal existant ne peut pas être ré-haussé.
+    private const val CHANNEL_ID = "alertes_marches_v2"
     private const val NOTIF_ID = 2001
 
     fun creerCanal(context: Context) {
@@ -28,9 +29,10 @@ object NotificationHelper {
         val canal = NotificationChannel(
             CHANNEL_ID,
             "Alertes marchés",
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = "Nouvelles opportunités correspondant à votre profil."
+            enableVibration(true)
         }
         val manager = context.getSystemService(NotificationManager::class.java)
         manager.createNotificationChannel(canal)
@@ -43,18 +45,39 @@ object NotificationHelper {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    /** Notifie l'utilisateur des marchés correspondant à son profil. */
-    @SuppressLint("MissingPermission") // garanti par peutNotifier() ci-dessous
+    /** Notifie l'utilisateur des marchés correspondant à son profil (silencieux si aucun). */
     fun notifierMarches(context: Context, marches: List<AppelOffre>) {
-        if (marches.isEmpty() || !peutNotifier(context)) return
-        creerCanal(context)
-
+        if (marches.isEmpty()) return
         val titre = if (marches.size == 1) "1 marché correspond à votre profil"
         else "${marches.size} marchés correspondent à votre profil"
-
         val corps = marches.take(4).joinToString("\n") { ao ->
             "• ${ao.objet} — ${ao.ville} (${Format.dh(ao.estimationDh)})"
         }
+        publier(context, titre, marches.first().objet, corps)
+    }
+
+    /**
+     * Notification de test : s'affiche toujours (même sans marché correspondant) afin
+     * de vérifier que les alertes sont bien reçues.
+     */
+    fun notifierTest(context: Context, marches: List<AppelOffre>) {
+        if (marches.isNotEmpty()) {
+            notifierMarches(context, marches)
+        } else {
+            publier(
+                context,
+                "Alertes activées ✓",
+                "Les notifications fonctionnent.",
+                "Vous serez prévenu dès qu'un marché correspondra à votre profil. " +
+                    "Renseignez vos critères (secteurs, villes, budget) pour recevoir des alertes ciblées."
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission") // garanti par peutNotifier()
+    private fun publier(context: Context, titre: String, texte: String, corps: String) {
+        if (!peutNotifier(context)) return
+        creerCanal(context)
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -65,11 +88,11 @@ object NotificationHelper {
         )
 
         val notif = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_stat_bmarche)
             .setContentTitle(titre)
-            .setContentText(marches.first().objet)
+            .setContentText(texte)
             .setStyle(NotificationCompat.BigTextStyle().bigText(corps))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pending)
             .build()
