@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      Thème appliqué avant l'initialisation de Compose (splash system).
+      Thème appliqué avant l'initialisation de Compose (splash système).
       L'apparence réelle de l'app est définie dans BMarcheProTheme (Compose).
     -->
     <style name="Theme.BMarchePro" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/vert_marche</item>
-        <item name="android:windowBackground">@color/sable_clair</item>
+        <item name="android:statusBarColor">@color/brand_primary</item>
+        <item name="android:windowBackground">@color/app_background</item>
     </style>
 </resources>

@@ -18,10 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bmarche.pro.ui.theme.VertMarche
-import com.bmarche.pro.ui.theme.VertMarcheFonce
+
+/** Dégradé de marque dérivé de la couleur primaire du thème (compatible Material You). */
+@Composable
+fun brandGradient(): Brush {
+    val primary = MaterialTheme.colorScheme.primary
+    return Brush.linearGradient(listOf(primary, lerp(primary, Color.Black, 0.32f)))
+}
 
 /** Bandeau de marque dégradé, utilisé en tête des écrans principaux. */
 @Composable
@@ -31,24 +37,25 @@ fun HeroHeader(
     modifier: Modifier = Modifier,
     contenu: (@Composable () -> Unit)? = null
 ) {
+    val onColor = MaterialTheme.colorScheme.onPrimary
     Column(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(Brush.linearGradient(listOf(VertMarche, VertMarcheFonce)))
+            .background(brandGradient())
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Text(
             text = titre,
             style = MaterialTheme.typography.headlineSmall,
-            color = Color.White,
+            color = onColor,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = sousTitre,
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = 0.85f)
+            color = onColor.copy(alpha = 0.85f)
         )
         contenu?.let {
             Row(
@@ -62,14 +69,15 @@ fun HeroHeader(
 /** Petite statistique affichée dans le bandeau (chiffre + libellé). */
 @Composable
 fun StatPill(valeur: String, libelle: String, modifier: Modifier = Modifier) {
+    val onColor = MaterialTheme.colorScheme.onPrimary
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
-            .background(Color.White.copy(alpha = 0.16f))
+            .background(onColor.copy(alpha = 0.18f))
             .padding(horizontal = 14.dp, vertical = 8.dp)
     ) {
-        Text(valeur, style = MaterialTheme.typography.titleMedium, color = Color.White, fontWeight = FontWeight.Bold)
-        Text(libelle, style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.85f))
+        Text(valeur, style = MaterialTheme.typography.titleMedium, color = onColor, fontWeight = FontWeight.Bold)
+        Text(libelle, style = MaterialTheme.typography.labelMedium, color = onColor.copy(alpha = 0.85f))
     }
 }
 

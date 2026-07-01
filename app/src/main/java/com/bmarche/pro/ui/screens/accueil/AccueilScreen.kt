@@ -34,11 +34,10 @@ import androidx.compose.ui.unit.sp
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
+import com.bmarche.pro.ui.components.brandGradient
 import com.bmarche.pro.ui.emblem
 import com.bmarche.pro.ui.icone
 import com.bmarche.pro.ui.theme.RegionColors
-import com.bmarche.pro.ui.theme.VertMarche
-import com.bmarche.pro.ui.theme.VertMarcheFonce
 
 @Composable
 fun AccueilScreen(
@@ -110,8 +109,9 @@ private fun TypeRow(type: TypePublication, compte: Int, onClick: () -> Unit) {
     androidx.compose.material3.Card(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
+        elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 1.dp),
         colors = androidx.compose.material3.CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
         )
     ) {
         Row(
@@ -153,39 +153,40 @@ private fun TypeRow(type: TypePublication, compte: Int, onClick: () -> Unit) {
 
 @Composable
 private fun TotalCard(total: Int, onRecherche: () -> Unit) {
+    val onColor = MaterialTheme.colorScheme.onPrimary
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(Brush.linearGradient(listOf(VertMarche, VertMarcheFonce)))
+            .background(brandGradient())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
             total.toString(),
-            style = MaterialTheme.typography.headlineSmall.copy(fontSize = 44.sp),
-            color = Color.White,
+            style = MaterialTheme.typography.displaySmall.copy(fontSize = 46.sp),
+            color = onColor,
             fontWeight = FontWeight.Bold
         )
         Text(
             "Total des marchés publics",
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = 0.9f)
+            color = onColor.copy(alpha = 0.9f)
         )
         Row(
             modifier = Modifier
                 .padding(top = 12.dp)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(14.dp))
-                .background(Color.White.copy(alpha = 0.16f))
+                .clip(RoundedCornerShape(16.dp))
+                .background(onColor.copy(alpha = 0.18f))
                 .clickable(onClick = onRecherche)
                 .padding(horizontal = 14.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(Icons.Filled.Search, contentDescription = null, tint = Color.White)
-            Text("Rechercher dans tous les marchés", color = Color.White, style = MaterialTheme.typography.bodyMedium)
+            Icon(Icons.Filled.Search, contentDescription = null, tint = onColor)
+            Text("Rechercher dans tous les marchés", color = onColor, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
