@@ -1,0 +1,33 @@
+package com.bmarche.pro.ui.navigation
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Business
+import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Storefront
+import androidx.compose.ui.graphics.vector.ImageVector
+
+/** Onglets principaux affichés dans la barre de navigation. */
+enum class TopDestination(
+    val route: String,
+    val labelFr: String,
+    val icon: ImageVector
+) {
+    LISTE("liste", "Marchés", Icons.Filled.Storefront),
+    FAVORIS("favoris", "Favoris", Icons.Filled.Favorite),
+    SOCIETES("societes", "Concurrence", Icons.Filled.Business),
+    PRIX("prix", "Prix", Icons.Filled.Calculate),
+    PROFIL("profil", "Profil", Icons.Filled.Person)
+}
+
+/** Destinations secondaires (empilées au-dessus des onglets). */
+object Routes {
+    const val DETAIL = "detail/{aoId}"
+    const val CHECKLIST = "checklist/{aoId}"
+    const val PRIX_POUR = "prix?aoId={aoId}"
+
+    fun detail(aoId: String) = "detail/$aoId"
+    fun checklist(aoId: String) = "checklist/$aoId"
+    fun prixPour(aoId: String) = "prix?aoId=$aoId"
+}
