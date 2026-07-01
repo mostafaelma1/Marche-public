@@ -11,6 +11,7 @@ TPE/PME marocaines.
 
 | # | Fonction | État |
 |---|----------|------|
+| 0 | **Page d'accueil par région** (12 régions du Maroc) avec compteurs + total | ✅ |
 | 1 | Liste des appels d'offres | ✅ |
 | 2 | Filtres par secteur & ville + recherche | ✅ |
 | 3 | Fiche détaillée d'un marché | ✅ |

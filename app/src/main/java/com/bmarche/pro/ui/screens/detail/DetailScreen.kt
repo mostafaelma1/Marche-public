@@ -13,10 +13,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Print
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
@@ -108,6 +112,7 @@ fun DetailScreen(
             Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     LigneInfo("Acheteur", ao.acheteur)
+                    LigneInfo("Région", ao.region.labelFr)
                     LigneInfo("Ville", ao.ville)
                     LigneInfo("Estimation", Format.dh(ao.estimationDh))
                     LigneInfo("Caution provisoire", Format.dh(ao.cautionProvisoireDh))
@@ -119,6 +124,14 @@ fun DetailScreen(
             if (ao.descriptif.isNotBlank()) {
                 Text("Objet du marché", style = MaterialTheme.typography.titleMedium)
                 Text(ao.descriptif, style = MaterialTheme.typography.bodyLarge)
+            }
+
+            // Coordonnées du maître d'ouvrage (comme sur l'avis).
+            if (ao.email.isNotBlank() || ao.telephone.isNotBlank() || ao.telecopieur.isNotBlank()) {
+                Text("Contact", style = MaterialTheme.typography.titleMedium)
+                if (ao.email.isNotBlank()) ContactRow(Icons.Filled.Email, "Adresse électronique", ao.email)
+                if (ao.telephone.isNotBlank()) ContactRow(Icons.Filled.Call, "Téléphone", ao.telephone)
+                if (ao.telecopieur.isNotBlank()) ContactRow(Icons.Filled.Print, "Télécopieur", ao.telecopieur)
             }
 
             // Raccourcis vers les outils.
@@ -210,6 +223,26 @@ fun DetailScreen(
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ContactRow(icone: ImageVector, label: String, valeur: String) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            Modifier.padding(14.dp).fillMaxWidth(),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Icon(icone, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            Column {
+                Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(valeur, style = MaterialTheme.typography.bodyLarge)
             }
         }
     }

@@ -71,7 +71,10 @@ object SampleData {
                 "Cahier des prescriptions spéciales (CPS)",
                 "Bordereau des prix — détail estimatif",
                 "Modèle d'acte d'engagement"
-            )
+            ),
+            email = "marches@ariase.gov.ma",
+            telephone = "05-37-00-00-00",
+            telecopieur = "05-37-00-00-01"
         ),
         AppelOffre(
             id = "ao2",
@@ -169,6 +172,112 @@ object SampleData {
             dateLimiteEpoch = maintenant + 8 * JOUR,
             descriptif = "Transport quotidien du personnel sur plusieurs circuits.",
             concurrentsProbables = emptyList()
+        ),
+        AppelOffre(
+            id = "ao9", reference = "AOO 22/2026",
+            objet = "Réhabilitation d'un établissement scolaire",
+            acheteur = "AREF Tanger-Tétouan-Al Hoceïma", ville = "Tanger",
+            domaine = Domaine.TRAVAUX, estimationDh = 2_100_000.0, cautionProvisoireDh = 35_000.0,
+            dateLimiteEpoch = maintenant + 11 * JOUR,
+            descriptif = "Réhabilitation complète : maçonnerie, électricité, plomberie.",
+            email = "marches@aref-ttah.gov.ma", telephone = "05-39-00-00-00"
+        ),
+        AppelOffre(
+            id = "ao10", reference = "AOO 31/2026",
+            objet = "Nettoyage des établissements de santé",
+            acheteur = "Délégation de la Santé — Oujda", ville = "Oujda",
+            domaine = Domaine.NETTOYAGE, estimationDh = 720_000.0, cautionProvisoireDh = 12_000.0,
+            dateLimiteEpoch = maintenant + 7 * JOUR,
+            descriptif = "Nettoyage et désinfection de 5 centres de santé."
+        ),
+        AppelOffre(
+            id = "ao11", reference = "AOO 12/2026",
+            objet = "Fourniture de mobilier scolaire",
+            acheteur = "Commune de Fès", ville = "Fès",
+            domaine = Domaine.FOURNITURES, estimationDh = 540_000.0, cautionProvisoireDh = 9_000.0,
+            dateLimiteEpoch = maintenant + 4 * JOUR,
+            descriptif = "Tables, chaises et tableaux pour écoles primaires."
+        ),
+        AppelOffre(
+            id = "ao12", reference = "AOO 08/2026",
+            objet = "Entretien des espaces verts urbains",
+            acheteur = "Commune de Meknès", ville = "Meknès",
+            domaine = Domaine.ESPACES_VERTS, estimationDh = 880_000.0, cautionProvisoireDh = 14_000.0,
+            dateLimiteEpoch = maintenant + 13 * JOUR,
+            descriptif = "Entretien des jardins publics et arrosage automatique."
+        ),
+        AppelOffre(
+            id = "ao13", reference = "AOO 27/2026",
+            objet = "Gardiennage des sites communaux",
+            acheteur = "Commune d'Agadir", ville = "Agadir",
+            domaine = Domaine.GARDIENNAGE, estimationDh = 1_450_000.0, cautionProvisoireDh = 24_000.0,
+            dateLimiteEpoch = maintenant + 10 * JOUR,
+            descriptif = "Gardiennage de 12 sites, 24h/24."
+        ),
+        AppelOffre(
+            id = "ao14", reference = "AOO 19/2026",
+            objet = "Restauration collective — hôpital",
+            acheteur = "CHR Agadir", ville = "Taroudant",
+            domaine = Domaine.RESTAURATION, estimationDh = 1_650_000.0, cautionProvisoireDh = 28_000.0,
+            dateLimiteEpoch = maintenant + 16 * JOUR,
+            descriptif = "Préparation des repas pour patients et personnel."
+        ),
+        AppelOffre(
+            id = "ao15", reference = "AOO 04/2026",
+            objet = "Travaux de construction d'un souk",
+            acheteur = "Commune de Béni Mellal", ville = "Béni Mellal",
+            domaine = Domaine.TRAVAUX, estimationDh = 4_500_000.0, cautionProvisoireDh = 70_000.0,
+            dateLimiteEpoch = maintenant + 22 * JOUR,
+            descriptif = "Construction d'un marché couvert de 80 locaux.",
+            piecesDossier = listOf("Règlement de consultation", "CPS", "Bordereau des prix", "Plans architecturaux")
+        ),
+        AppelOffre(
+            id = "ao16", reference = "AOO 14/2026",
+            objet = "Fourniture de matériel informatique",
+            acheteur = "Province d'Errachidia", ville = "Errachidia",
+            domaine = Domaine.INFORMATIQUE, estimationDh = 690_000.0, cautionProvisoireDh = 11_000.0,
+            dateLimiteEpoch = maintenant + 6 * JOUR,
+            descriptif = "Ordinateurs, serveurs et équipements réseau."
+        ),
+        AppelOffre(
+            id = "ao17", reference = "AOO 02/2026",
+            objet = "Transport scolaire en milieu rural",
+            acheteur = "Commune de Dakhla", ville = "Dakhla",
+            domaine = Domaine.TRANSPORT, estimationDh = 980_000.0, cautionProvisoireDh = 16_000.0,
+            dateLimiteEpoch = maintenant + 9 * JOUR,
+            descriptif = "Transport quotidien des élèves sur plusieurs circuits ruraux."
+        ),
+        AppelOffre(
+            id = "ao18", reference = "AOO 06/2026",
+            objet = "Aménagement de la corniche",
+            acheteur = "Commune de Laâyoune", ville = "Laâyoune",
+            domaine = Domaine.TRAVAUX, estimationDh = 3_800_000.0, cautionProvisoireDh = 60_000.0,
+            dateLimiteEpoch = maintenant + 18 * JOUR,
+            descriptif = "Aménagement paysager et éclairage de la corniche."
+        ),
+        AppelOffre(
+            id = "ao19", reference = "AOO 25/2026",
+            objet = "Fourniture de fournitures de bureau",
+            acheteur = "Province de Guelmim", ville = "Guelmim",
+            domaine = Domaine.FOURNITURES, estimationDh = 320_000.0, cautionProvisoireDh = 5_000.0,
+            dateLimiteEpoch = maintenant + 5 * JOUR,
+            descriptif = "Consommables et petit matériel de bureau."
+        ),
+        AppelOffre(
+            id = "ao20", reference = "AOO 11/2026",
+            objet = "Nettoyage de la voirie",
+            acheteur = "Commune de Nador", ville = "Nador",
+            domaine = Domaine.NETTOYAGE, estimationDh = 1_050_000.0, cautionProvisoireDh = 17_000.0,
+            dateLimiteEpoch = maintenant + 12 * JOUR,
+            descriptif = "Nettoyage et collecte des déchets sur les axes principaux."
+        ),
+        AppelOffre(
+            id = "ao21", reference = "AOO 17/2026",
+            objet = "Restauration scolaire",
+            acheteur = "AREF Marrakech-Safi", ville = "Safi",
+            domaine = Domaine.RESTAURATION, estimationDh = 1_900_000.0, cautionProvisoireDh = 31_000.0,
+            dateLimiteEpoch = maintenant + 14 * JOUR,
+            descriptif = "Repas pour internats et cantines scolaires."
         )
     )
 

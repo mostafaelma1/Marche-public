@@ -25,5 +25,12 @@ data class AppelOffre(
      * Si la liste contient plusieurs pièces, le dossier est téléchargé en ZIP ;
      * sinon une simple fiche PDF est générée.
      */
-    val piecesDossier: List<String> = emptyList()
-)
+    val piecesDossier: List<String> = emptyList(),
+    // Coordonnées du maître d'ouvrage (comme sur l'avis de publication).
+    val email: String = "",
+    val telephone: String = "",
+    val telecopieur: String = ""
+) {
+    /** Région administrative, déduite de la ville. */
+    val region: Region get() = Region.forVille(ville)
+}

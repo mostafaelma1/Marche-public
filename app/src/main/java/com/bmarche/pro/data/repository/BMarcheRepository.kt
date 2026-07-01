@@ -7,6 +7,7 @@ import com.bmarche.pro.data.local.FavoriEntity
 import com.bmarche.pro.data.model.AppelOffre
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.data.model.EtatPiece
+import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.Societe
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,6 +17,7 @@ data class FiltreAppelOffre(
     val recherche: String = "",
     val domaine: Domaine? = null,
     val ville: String? = null,
+    val region: Region? = null,
     val budgetMax: Double? = null
 )
 
@@ -37,6 +39,7 @@ class BMarcheRepository(context: Context) {
         return SampleData.appelsOffres.filter { ao ->
             (filtre.domaine == null || ao.domaine == filtre.domaine) &&
                 (filtre.ville == null || ao.ville.equals(filtre.ville, ignoreCase = true)) &&
+                (filtre.region == null || ao.region == filtre.region) &&
                 (filtre.budgetMax == null || ao.estimationDh <= filtre.budgetMax) &&
                 (recherche.isBlank() ||
                     ao.objet.lowercase().contains(recherche) ||
@@ -49,6 +52,15 @@ class BMarcheRepository(context: Context) {
 
     fun villesDisponibles(): List<String> =
         SampleData.appelsOffres.map { it.ville }.distinct().sorted()
+
+    /** Nombre total de marchés disponibles. */
+    fun totalMarches(): Int = SampleData.appelsOffres.size
+
+    /** Nombre de marchés par région (toutes les régions, y compris à zéro). */
+    fun comptesParRegion(): Map<Region, Int> {
+        val comptes = SampleData.appelsOffres.groupingBy { it.region }.eachCount()
+        return Region.entries.associateWith { comptes[it] ?: 0 }
+    }
 
     /** Marchés correspondant au profil d'alerte (pour l'écran d'accueil / notifications). */
     fun marchesRecommandes(profil: ProfilAlerte): List<AppelOffre> {

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bmarche.pro.data.model.AppelOffre
 import com.bmarche.pro.data.model.Domaine
+import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.repository.BMarcheRepository
 import com.bmarche.pro.data.repository.FiltreAppelOffre
 import com.bmarche.pro.data.repository.ProfilAlerte
@@ -23,7 +24,10 @@ data class ListeUiState(
     val favorisIds: Set<String> = emptySet()
 )
 
-class ListeViewModel(private val repo: BMarcheRepository) : ViewModel() {
+class ListeViewModel(
+    private val repo: BMarcheRepository,
+    private val region: Region? = null
+) : ViewModel() {
 
     private val _state = MutableStateFlow(ListeUiState(villes = repo.villesDisponibles()))
     val state: StateFlow<ListeUiState> = _state.asStateFlow()
@@ -33,8 +37,11 @@ class ListeViewModel(private val repo: BMarcheRepository) : ViewModel() {
         viewModelScope.launch {
             repo.favorisIds().collect { ids -> _state.update { it.copy(favorisIds = ids.toSet()) } }
         }
-        viewModelScope.launch {
-            repo.profilStore.profil.collect { profil -> majRecommandes(profil) }
+        // Les recommandations ne s'affichent que dans la vue « tous les marchés ».
+        if (region == null) {
+            viewModelScope.launch {
+                repo.profilStore.profil.collect { profil -> majRecommandes(profil) }
+            }
         }
     }
 
@@ -56,7 +63,9 @@ class ListeViewModel(private val repo: BMarcheRepository) : ViewModel() {
 
     private fun recalculer() {
         val s = _state.value
-        val filtre = FiltreAppelOffre(recherche = s.recherche, domaine = s.domaine, ville = s.ville)
+        val filtre = FiltreAppelOffre(
+            recherche = s.recherche, domaine = s.domaine, ville = s.ville, region = region
+        )
         _state.update { it.copy(resultats = repo.appelsOffres(filtre)) }
     }
 }

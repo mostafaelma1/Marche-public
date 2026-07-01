@@ -20,6 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bmarche.pro.data.model.Region
+import com.bmarche.pro.ui.screens.accueil.AccueilScreen
 import com.bmarche.pro.ui.screens.checklist.ChecklistScreen
 import com.bmarche.pro.ui.screens.detail.DetailScreen
 import com.bmarche.pro.ui.screens.documents.DocumentsScreen
@@ -68,13 +70,29 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = TopDestination.LISTE.route,
+            startDestination = TopDestination.ACCUEIL.route,
             modifier = Modifier
         ) {
-            composable(TopDestination.LISTE.route) {
-                ListeScreen(
-                    onOuvrirDetail = { navController.navigate(Routes.detail(it)) },
+            composable(TopDestination.ACCUEIL.route) {
+                AccueilScreen(
+                    onOuvrirRegion = { region -> navController.navigate(Routes.liste(region.name)) },
+                    onOuvrirTous = { navController.navigate(Routes.liste(null)) },
                     modifier = Modifier.padding(padding)
+                )
+            }
+            composable(
+                route = Routes.LISTE,
+                arguments = listOf(navArgument("region") {
+                    type = NavType.StringType; nullable = true; defaultValue = null
+                })
+            ) { entry ->
+                val region = entry.arguments?.getString("region")
+                    ?.let { name -> runCatching { Region.valueOf(name) }.getOrNull() }
+                ListeScreen(
+                    region = region,
+                    titre = region?.labelFr ?: "Tous les marchés",
+                    onRetour = { navController.popBackStack() },
+                    onOuvrirDetail = { navController.navigate(Routes.detail(it)) }
                 )
             }
             composable(TopDestination.FAVORIS.route) {

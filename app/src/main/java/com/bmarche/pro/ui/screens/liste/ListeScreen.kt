@@ -24,42 +24,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bmarche.pro.data.model.Domaine
+import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.ui.components.AppelOffreCard
-import com.bmarche.pro.ui.components.HeroHeader
 import com.bmarche.pro.ui.components.SectionTitle
-import com.bmarche.pro.ui.components.StatPill
 import com.bmarche.pro.ui.repositoryViewModel
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun ListeScreen(
-    onOuvrirDetail: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp)
+    region: Region?,
+    titre: String,
+    onRetour: () -> Unit,
+    onOuvrirDetail: (String) -> Unit
 ) {
-    val vm = repositoryViewModel { ListeViewModel(it) }
+    val vm = repositoryViewModel { ListeViewModel(it, region) }
     val state by vm.state.collectAsStateWithLifecycle()
 
+    androidx.compose.material3.Scaffold(
+        topBar = {
+            androidx.compose.material3.TopAppBar(
+                title = { Text(titre, maxLines = 1) },
+                navigationIcon = {
+                    androidx.compose.material3.IconButton(onClick = onRetour) {
+                        Icon(
+                            androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Retour"
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            start = 16.dp, end = 16.dp,
-            top = 12.dp + contentPadding.calculateTopPadding(),
-            bottom = 12.dp + contentPadding.calculateBottomPadding()
-        ),
+        modifier = Modifier.fillMaxSize().padding(padding),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item {
-            HeroHeader(
-                titre = "Marchés publics",
-                sousTitre = "Trouvez le bon marché et visez le juste prix."
-            ) {
-                StatPill(valeur = "${state.resultats.size}", libelle = "marchés")
-                if (state.recommandes.isNotEmpty()) {
-                    StatPill(valeur = "${state.recommandes.size}", libelle = "pour vous")
-                }
-            }
-        }
-
         item {
             OutlinedTextField(
                 value = state.recherche,
@@ -121,6 +121,7 @@ fun ListeScreen(
                 )
             }
         }
+    }
     }
 }
 
