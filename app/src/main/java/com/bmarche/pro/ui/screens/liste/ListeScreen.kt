@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.data.model.Region
+import com.bmarche.pro.data.model.TypePublication
 import com.bmarche.pro.ui.components.AppelOffreCard
 import com.bmarche.pro.ui.components.SectionTitle
 import com.bmarche.pro.ui.repositoryViewModel
@@ -38,11 +39,12 @@ import com.bmarche.pro.ui.repositoryViewModel
 @Composable
 fun ListeScreen(
     region: Region?,
+    type: TypePublication?,
     titre: String,
     onRetour: () -> Unit,
     onOuvrirDetail: (String) -> Unit
 ) {
-    val vm = repositoryViewModel { ListeViewModel(it, region) }
+    val vm = repositoryViewModel { ListeViewModel(it, region, type) }
     val state by vm.state.collectAsStateWithLifecycle()
 
     Scaffold(

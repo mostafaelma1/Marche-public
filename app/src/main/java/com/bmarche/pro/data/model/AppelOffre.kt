@@ -29,7 +29,9 @@ data class AppelOffre(
     // Coordonnées du maître d'ouvrage (comme sur l'avis de publication).
     val email: String = "",
     val telephone: String = "",
-    val telecopieur: String = ""
+    val telecopieur: String = "",
+    /** Catégorie de la publication. */
+    val type: TypePublication = TypePublication.MARCHE_PUBLIC
 ) {
     /** Région administrative, déduite de la ville. */
     val region: Region get() = Region.forVille(ville)

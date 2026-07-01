@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bmarche.pro.data.model.Region
+import com.bmarche.pro.data.model.TypePublication
 import com.bmarche.pro.ui.screens.accueil.AccueilScreen
 import com.bmarche.pro.ui.screens.checklist.ChecklistScreen
 import com.bmarche.pro.ui.screens.detail.DetailScreen
@@ -75,22 +76,30 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
         ) {
             composable(TopDestination.ACCUEIL.route) {
                 AccueilScreen(
-                    onOuvrirRegion = { region -> navController.navigate(Routes.liste(region.name)) },
-                    onOuvrirTous = { navController.navigate(Routes.liste(null)) },
+                    onOuvrirRegion = { region ->
+                        navController.navigate(Routes.liste(region = region.name, type = TypePublication.MARCHE_PUBLIC.name))
+                    },
+                    onOuvrirType = { type -> navController.navigate(Routes.liste(type = type.name)) },
+                    onOuvrirTous = { navController.navigate(Routes.liste()) },
                     modifier = Modifier.padding(padding)
                 )
             }
             composable(
                 route = Routes.LISTE,
-                arguments = listOf(navArgument("region") {
-                    type = NavType.StringType; nullable = true; defaultValue = null
-                })
+                arguments = listOf(
+                    navArgument("region") { type = NavType.StringType; nullable = true; defaultValue = null },
+                    navArgument("type") { type = NavType.StringType; nullable = true; defaultValue = null }
+                )
             ) { entry ->
                 val region = entry.arguments?.getString("region")
                     ?.let { name -> runCatching { Region.valueOf(name) }.getOrNull() }
+                val type = entry.arguments?.getString("type")
+                    ?.let { name -> runCatching { TypePublication.valueOf(name) }.getOrNull() }
+                val titre = type?.labelFr ?: region?.labelFr ?: "Tous les marchés"
                 ListeScreen(
                     region = region,
-                    titre = region?.labelFr ?: "Tous les marchés",
+                    type = type,
+                    titre = titre,
                     onRetour = { navController.popBackStack() },
                     onOuvrirDetail = { navController.navigate(Routes.detail(it)) }
                 )

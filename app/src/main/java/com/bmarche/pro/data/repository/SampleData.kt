@@ -278,6 +278,84 @@ object SampleData {
             domaine = Domaine.RESTAURATION, estimationDh = 1_900_000.0, cautionProvisoireDh = 31_000.0,
             dateLimiteEpoch = maintenant + 14 * JOUR,
             descriptif = "Repas pour internats et cantines scolaires."
+        ),
+        // --- Bons de commande ---
+        AppelOffre(
+            id = "bc1", reference = "BC 45/2026",
+            objet = "Achat de consommables informatiques",
+            acheteur = "Commune de Rabat", ville = "Rabat",
+            domaine = Domaine.INFORMATIQUE, estimationDh = 120_000.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant + 4 * JOUR,
+            descriptif = "Cartouches, toners et supports de stockage.",
+            type = TypePublication.BON_COMMANDE
+        ),
+        AppelOffre(
+            id = "bc2", reference = "BC 51/2026",
+            objet = "Fourniture de produits d'entretien",
+            acheteur = "Province de Fès", ville = "Fès",
+            domaine = Domaine.NETTOYAGE, estimationDh = 90_000.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant + 6 * JOUR,
+            descriptif = "Produits et matériel de nettoyage.",
+            type = TypePublication.BON_COMMANDE
+        ),
+        // --- Marchés privés ---
+        AppelOffre(
+            id = "mp1", reference = "MP 03/2026",
+            objet = "Travaux d'aménagement d'un centre commercial",
+            acheteur = "Groupe immobilier privé", ville = "Casablanca",
+            domaine = Domaine.TRAVAUX, estimationDh = 6_800_000.0, cautionProvisoireDh = 100_000.0,
+            dateLimiteEpoch = maintenant + 20 * JOUR,
+            descriptif = "Aménagement intérieur et façades d'un centre commercial privé.",
+            type = TypePublication.MARCHE_PRIVE
+        ),
+        // --- Programme prévisionnel ---
+        AppelOffre(
+            id = "pp1", reference = "PP 2026",
+            objet = "Programme prévisionnel des achats 2026",
+            acheteur = "Ministère de la Santé", ville = "Rabat",
+            domaine = Domaine.FOURNITURES, estimationDh = 0.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant + 60 * JOUR,
+            descriptif = "Prévisions des marchés à lancer durant l'année 2026.",
+            type = TypePublication.PROGRAMME_PREVISIONNEL
+        ),
+        // --- Résultats définitifs ---
+        AppelOffre(
+            id = "rd1", reference = "RD 08/2026",
+            objet = "Résultat — Nettoyage des locaux administratifs",
+            acheteur = "Commune de Casablanca", ville = "Casablanca",
+            domaine = Domaine.NETTOYAGE, estimationDh = 960_000.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant,
+            descriptif = "Marché attribué à la société Al Wafaa Services au montant de 845 000 DH.",
+            type = TypePublication.RESULTAT_DEFINITIF
+        ),
+        AppelOffre(
+            id = "rd2", reference = "RD 12/2026",
+            objet = "Résultat — Restauration scolaire",
+            acheteur = "AREF Rabat-Salé-Kénitra", ville = "Rabat",
+            domaine = Domaine.RESTAURATION, estimationDh = 2_400_000.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant,
+            descriptif = "Marché attribué à Restauration Atlas SARL au montant de 2 160 000 DH.",
+            type = TypePublication.RESULTAT_DEFINITIF
+        ),
+        // --- Extraits de PV ---
+        AppelOffre(
+            id = "pv1", reference = "PV 05/2026",
+            objet = "Extrait de PV — Travaux de voirie",
+            acheteur = "Commune de Mohammedia", ville = "Mohammedia",
+            domaine = Domaine.TRAVAUX, estimationDh = 3_200_000.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant,
+            descriptif = "Procès-verbal de la séance d'ouverture des plis.",
+            type = TypePublication.EXTRAIT_PV
+        ),
+        // --- Décisions de résiliation ---
+        AppelOffre(
+            id = "dr1", reference = "DR 02/2026",
+            objet = "Décision de résiliation — Gardiennage",
+            acheteur = "CHU Ibn Rochd", ville = "Casablanca",
+            domaine = Domaine.GARDIENNAGE, estimationDh = 1_800_000.0, cautionProvisoireDh = 0.0,
+            dateLimiteEpoch = maintenant,
+            descriptif = "Résiliation du marché pour non-respect des clauses contractuelles.",
+            type = TypePublication.DECISION_RESILIATION
         )
     )
 

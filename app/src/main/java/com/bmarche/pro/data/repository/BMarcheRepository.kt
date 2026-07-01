@@ -9,6 +9,7 @@ import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.data.model.EtatPiece
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.Societe
+import com.bmarche.pro.data.model.TypePublication
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -18,6 +19,7 @@ data class FiltreAppelOffre(
     val domaine: Domaine? = null,
     val ville: String? = null,
     val region: Region? = null,
+    val type: TypePublication? = null,
     val budgetMax: Double? = null
 )
 
@@ -40,6 +42,7 @@ class BMarcheRepository(context: Context) {
             (filtre.domaine == null || ao.domaine == filtre.domaine) &&
                 (filtre.ville == null || ao.ville.equals(filtre.ville, ignoreCase = true)) &&
                 (filtre.region == null || ao.region == filtre.region) &&
+                (filtre.type == null || ao.type == filtre.type) &&
                 (filtre.budgetMax == null || ao.estimationDh <= filtre.budgetMax) &&
                 (recherche.isBlank() ||
                     ao.objet.lowercase().contains(recherche) ||
@@ -53,13 +56,22 @@ class BMarcheRepository(context: Context) {
     fun villesDisponibles(): List<String> =
         SampleData.appelsOffres.map { it.ville }.distinct().sorted()
 
-    /** Nombre total de marchés disponibles. */
-    fun totalMarches(): Int = SampleData.appelsOffres.size
+    /** Nombre total de marchés publics disponibles (hors autres catégories). */
+    fun totalMarches(): Int =
+        SampleData.appelsOffres.count { it.type == TypePublication.MARCHE_PUBLIC }
 
-    /** Nombre de marchés par région (toutes les régions, y compris à zéro). */
+    /** Nombre de marchés publics par région (toutes les régions, y compris à zéro). */
     fun comptesParRegion(): Map<Region, Int> {
-        val comptes = SampleData.appelsOffres.groupingBy { it.region }.eachCount()
+        val comptes = SampleData.appelsOffres
+            .filter { it.type == TypePublication.MARCHE_PUBLIC }
+            .groupingBy { it.region }.eachCount()
         return Region.entries.associateWith { comptes[it] ?: 0 }
+    }
+
+    /** Nombre de publications par catégorie (toutes les catégories, y compris à zéro). */
+    fun comptesParType(): Map<TypePublication, Int> {
+        val comptes = SampleData.appelsOffres.groupingBy { it.type }.eachCount()
+        return TypePublication.entries.associateWith { comptes[it] ?: 0 }
     }
 
     /** Marchés correspondant au profil d'alerte (pour l'écran d'accueil / notifications). */

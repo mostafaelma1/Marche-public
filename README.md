@@ -12,6 +12,7 @@ TPE/PME marocaines.
 | # | Fonction | État |
 |---|----------|------|
 | 0 | **Page d'accueil par région** (12 régions du Maroc) avec compteurs + total | ✅ |
+| 0b | **Catégories de publications** : marchés publics, bons de commande, marchés privés, programme prévisionnel, résultats définitifs, extraits de PV, décisions de résiliation | ✅ |
 | 1 | Liste des appels d'offres | ✅ |
 | 2 | Filtres par secteur & ville + recherche | ✅ |
 | 3 | Fiche détaillée d'un marché | ✅ |

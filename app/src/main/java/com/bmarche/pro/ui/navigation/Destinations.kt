@@ -23,14 +23,20 @@ enum class TopDestination(
 
 /** Destinations secondaires (empilées au-dessus des onglets). */
 object Routes {
-    const val LISTE = "liste?region={region}"
+    const val LISTE = "liste?region={region}&type={type}"
     const val DETAIL = "detail/{aoId}"
     const val CHECKLIST = "checklist/{aoId}"
     const val PRIX_POUR = "prix?aoId={aoId}"
     const val DOCUMENTS = "documents/{aoId}"
     const val MA_SOCIETE = "ma_societe"
 
-    fun liste(region: String? = null) = if (region == null) "liste" else "liste?region=$region"
+    fun liste(region: String? = null, type: String? = null): String {
+        val params = buildList {
+            if (region != null) add("region=$region")
+            if (type != null) add("type=$type")
+        }
+        return if (params.isEmpty()) "liste" else "liste?" + params.joinToString("&")
+    }
     fun detail(aoId: String) = "detail/$aoId"
     fun checklist(aoId: String) = "checklist/$aoId"
     fun prixPour(aoId: String) = "prix?aoId=$aoId"

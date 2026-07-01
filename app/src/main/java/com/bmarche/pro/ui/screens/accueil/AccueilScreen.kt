@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Region
+import com.bmarche.pro.data.model.TypePublication
 import com.bmarche.pro.ui.emblem
+import com.bmarche.pro.ui.icone
 import com.bmarche.pro.ui.theme.RegionColors
 import com.bmarche.pro.ui.theme.VertMarche
 import com.bmarche.pro.ui.theme.VertMarcheFonce
@@ -41,6 +43,7 @@ import com.bmarche.pro.ui.theme.VertMarcheFonce
 @Composable
 fun AccueilScreen(
     onOuvrirRegion: (Region) -> Unit,
+    onOuvrirType: (TypePublication) -> Unit,
     onOuvrirTous: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
@@ -48,6 +51,7 @@ fun AccueilScreen(
     val app = LocalContext.current.applicationContext as BMarcheApplication
     val total = app.repository.totalMarches()
     val comptes = app.repository.comptesParRegion()
+    val comptesType = app.repository.comptesParType()
     val regions = Region.entries.sortedByDescending { comptes[it] ?: 0 }
 
     LazyVerticalGrid(
@@ -78,6 +82,71 @@ fun AccueilScreen(
                 couleur = RegionColors[region.ordinal % RegionColors.size],
                 onClick = { onOuvrirRegion(region) }
             )
+        }
+        item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }) {
+            Text(
+                "Catégories",
+                modifier = Modifier.padding(top = 8.dp),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        items(
+            TypePublication.entries,
+            key = { it.name },
+            span = { androidx.compose.foundation.lazy.grid.GridItemSpan(maxLineSpan) }
+        ) { type ->
+            TypeRow(
+                type = type,
+                compte = comptesType[type] ?: 0,
+                onClick = { onOuvrirType(type) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun TypeRow(type: TypePublication, compte: Int, onClick: () -> Unit) {
+    androidx.compose.material3.Card(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    ) {
+        Row(
+            Modifier.padding(14.dp).fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(type.icone(), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            }
+            Text(
+                type.labelFr,
+                modifier = Modifier.weight(1f),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium
+            )
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .padding(horizontal = 10.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    compte.toString(),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
         }
     }
 }
