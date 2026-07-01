@@ -12,7 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +34,7 @@ import com.bmarche.pro.ui.components.AppelOffreCard
 import com.bmarche.pro.ui.components.SectionTitle
 import com.bmarche.pro.ui.repositoryViewModel
 
-@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListeScreen(
     region: Region?,
@@ -40,16 +45,13 @@ fun ListeScreen(
     val vm = repositoryViewModel { ListeViewModel(it, region) }
     val state by vm.state.collectAsStateWithLifecycle()
 
-    androidx.compose.material3.Scaffold(
+    Scaffold(
         topBar = {
-            androidx.compose.material3.TopAppBar(
+            TopAppBar(
                 title = { Text(titre, maxLines = 1) },
                 navigationIcon = {
-                    androidx.compose.material3.IconButton(onClick = onRetour) {
-                        Icon(
-                            androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Retour"
-                        )
+                    IconButton(onClick = onRetour) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
                     }
                 }
             )

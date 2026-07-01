@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Region
+import com.bmarche.pro.ui.emblem
 import com.bmarche.pro.ui.theme.RegionColors
 import com.bmarche.pro.ui.theme.VertMarche
 import com.bmarche.pro.ui.theme.VertMarcheFonce
@@ -137,7 +137,7 @@ private fun RegionTile(region: Region, compte: Int, couleur: Color, onClick: () 
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    Icons.Filled.AccountBalance,
+                    region.emblem(),
                     contentDescription = null,
                     tint = Color.White,
                     modifier = Modifier.size(34.dp)
