@@ -3,6 +3,7 @@ package com.bmarche.pro.data.repository
 import com.bmarche.pro.data.model.AppelOffre
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.data.model.Societe
+import com.bmarche.pro.data.model.TypePublication
 
 /**
  * Jeu de données de démonstration. Il remplace, pour l'instant, la source réelle
