@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -50,6 +51,7 @@ fun DetailScreen(
     onRetour: () -> Unit,
     onOuvrirChecklist: (String) -> Unit,
     onOuvrirPrix: (String) -> Unit,
+    onOuvrirDocuments: (String) -> Unit,
     onOuvrirSociete: (String) -> Unit
 ) {
     val vm = repositoryViewModel { DetailViewModel(it, aoId) }
@@ -140,6 +142,13 @@ fun DetailScreen(
             ) {
                 Icon(Icons.Filled.Download, contentDescription = null)
                 Text("  Télécharger le dossier (${DossierGenerator.formatLabel(ao)})")
+            }
+            FilledTonalButton(
+                onClick = { onOuvrirDocuments(ao.id) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Filled.Description, contentDescription = null)
+                Text("  Générer les documents (engagement, déclaration…)")
             }
             OutlinedButton(
                 onClick = { WhatsApp.partager(context, WhatsApp.texteMarche(ao)) },

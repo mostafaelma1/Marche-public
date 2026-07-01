@@ -26,8 +26,11 @@ object Routes {
     const val DETAIL = "detail/{aoId}"
     const val CHECKLIST = "checklist/{aoId}"
     const val PRIX_POUR = "prix?aoId={aoId}"
+    const val DOCUMENTS = "documents/{aoId}"
+    const val MA_SOCIETE = "ma_societe"
 
     fun detail(aoId: String) = "detail/$aoId"
     fun checklist(aoId: String) = "checklist/$aoId"
     fun prixPour(aoId: String) = "prix?aoId=$aoId"
+    fun documents(aoId: String) = "documents/$aoId"
 }

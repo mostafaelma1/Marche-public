@@ -28,6 +28,7 @@ class BMarcheRepository(context: Context) {
 
     private val dao = BMarcheDatabase.get(context).dao()
     val profilStore = ProfilStore(context)
+    val societeStore = SocieteStore(context)
 
     // --- Appels d'offres --------------------------------------------------
 

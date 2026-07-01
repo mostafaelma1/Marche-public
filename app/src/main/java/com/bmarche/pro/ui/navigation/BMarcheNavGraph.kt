@@ -22,6 +22,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bmarche.pro.ui.screens.checklist.ChecklistScreen
 import com.bmarche.pro.ui.screens.detail.DetailScreen
+import com.bmarche.pro.ui.screens.documents.DocumentsScreen
+import com.bmarche.pro.ui.screens.masociete.MaSocieteScreen
 import com.bmarche.pro.ui.screens.favoris.FavorisScreen
 import com.bmarche.pro.ui.screens.liste.ListeScreen
 import com.bmarche.pro.ui.screens.prix.PrixScreen
@@ -99,7 +101,10 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                 )
             }
             composable(TopDestination.PROFIL.route) {
-                ProfilScreen(modifier = Modifier.padding(padding))
+                ProfilScreen(
+                    onOuvrirMaSociete = { navController.navigate(Routes.MA_SOCIETE) },
+                    modifier = Modifier.padding(padding)
+                )
             }
 
             composable(
@@ -112,6 +117,7 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                     onRetour = { navController.popBackStack() },
                     onOuvrirChecklist = { navController.navigate(Routes.checklist(it)) },
                     onOuvrirPrix = { navController.navigate(Routes.prixPour(it)) },
+                    onOuvrirDocuments = { navController.navigate(Routes.documents(it)) },
                     onOuvrirSociete = { navController.navigate("societe/$it") }
                 )
             }
@@ -131,6 +137,19 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                 SocieteDetailScreen(
                     societeId = entry.arguments?.getString("societeId").orEmpty(),
                     onRetour = { navController.popBackStack() }
+                )
+            }
+            composable(Routes.MA_SOCIETE) {
+                MaSocieteScreen(onRetour = { navController.popBackStack() })
+            }
+            composable(
+                route = Routes.DOCUMENTS,
+                arguments = listOf(navArgument("aoId") { type = NavType.StringType })
+            ) { entry ->
+                DocumentsScreen(
+                    aoId = entry.arguments?.getString("aoId").orEmpty(),
+                    onRetour = { navController.popBackStack() },
+                    onOuvrirMaSociete = { navController.navigate(Routes.MA_SOCIETE) }
                 )
             }
         }

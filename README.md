@@ -23,6 +23,8 @@ TPE/PME marocaines.
 | 10 | **Alertes / partage WhatsApp** (récap + partage par marché, gratuit) | ✅ |
 | 11 | **Téléchargement du dossier** de chaque marché : **PDF** (1 pièce) ou **ZIP** (plusieurs pièces) | ✅ |
 | 12 | **Design pro** : bandeaux dégradés, cartes à accent par secteur, icônes de domaine | ✅ |
+| 13 | **Fiche société** (RC, ICE, IF, CNSS, représentant…) enregistrée | ✅ |
+| 14 | **Générateur de documents** pré-remplis : acte d'engagement, déclaration sur l'honneur, lettre de maintien de l'offre (PDF, ou ZIP groupé) | ✅ |
 
 ### Compatibilité
 
@@ -34,8 +36,8 @@ TPE/PME marocaines.
   **sans services Google** (Huawei, etc.).
 
 ### À venir (prochaines étapes)
-- Générateur de documents (lettre d'engagement, notes moyens humains/techniques,
-  méthodologie, planning, bordereau, demande de caution)
+- Documents supplémentaires (notes moyens humains/techniques, méthodologie,
+  planning, bordereau, demande de caution)
 - Connexion à une source réelle de marchés (API / portail) + résultats publiés
 - Abonnements (Gratuit / Standard / Pro) et paiement in-app
 - Export PDF du résumé d'un marché
