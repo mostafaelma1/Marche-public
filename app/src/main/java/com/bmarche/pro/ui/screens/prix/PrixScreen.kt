@@ -26,6 +26,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.domain.AnalysePrix
 import com.bmarche.pro.domain.PositionPrix
@@ -59,8 +61,8 @@ fun PrixScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         com.bmarche.pro.ui.components.HeroHeader(
-            titre = "Prix de référence",
-            sousTitre = "Analysez votre prix face à l'estimation et aux habitudes du secteur."
+            titre = stringResource(com.bmarche.pro.R.string.prix_titre),
+            sousTitre = stringResource(com.bmarche.pro.R.string.prix_sous_titre)
         )
         state.aoAssocie?.let {
             Text(
@@ -79,7 +81,7 @@ fun PrixScreen(
                 FilterChip(
                     selected = state.domaine == d,
                     onClick = { vm.onDomaine(d) },
-                    label = { Text(d.labelFr) }
+                    label = { Text(d.label()) }
                 )
             }
         }

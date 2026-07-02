@@ -28,6 +28,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.R
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
@@ -53,7 +56,7 @@ fun ListeScreen(
                 title = { Text(titre, maxLines = 1) },
                 navigationIcon = {
                     IconButton(onClick = onRetour) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.retour))
                     }
                 }
             )
@@ -72,7 +75,7 @@ fun ListeScreen(
                 singleLine = true,
                 shape = MaterialTheme.shapes.large,
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                placeholder = { Text("Rechercher un marché, un acheteur…") }
+                placeholder = { Text(stringResource(R.string.recherche_hint)) }
             )
         }
 
@@ -92,7 +95,7 @@ fun ListeScreen(
 
         if (state.recommandes.isNotEmpty()) {
             item {
-                SectionTitle("Recommandés pour vous (${state.recommandes.size})")
+                SectionTitle(stringResource(R.string.section_recommandes, state.recommandes.size))
             }
             items(state.recommandes, key = { "reco-${it.id}" }) { ao ->
                 AppelOffreCard(
@@ -103,7 +106,7 @@ fun ListeScreen(
                 )
             }
             item {
-                SectionTitle("Tous les marchés (${state.resultats.size})")
+                SectionTitle(stringResource(R.string.section_tous_marches, state.resultats.size))
             }
         }
 
@@ -119,7 +122,7 @@ fun ListeScreen(
         if (state.resultats.isEmpty()) {
             item {
                 Text(
-                    text = "Aucun marché ne correspond à ces filtres.",
+                    text = stringResource(R.string.liste_vide),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
@@ -138,13 +141,13 @@ private fun FiltresDomaine(selection: Domaine?, onSelection: (Domaine?) -> Unit)
         FilterChip(
             selected = selection == null,
             onClick = { onSelection(null) },
-            label = { Text("Tous") }
+            label = { Text(stringResource(R.string.filtre_tous)) }
         )
         Domaine.entries.forEach { d ->
             FilterChip(
                 selected = selection == d,
                 onClick = { onSelection(if (selection == d) null else d) },
-                label = { Text(d.labelFr) }
+                label = { Text(d.label()) }
             )
         }
     }
@@ -159,7 +162,7 @@ private fun FiltresVille(villes: List<String>, selection: String?, onSelection: 
         FilterChip(
             selected = selection == null,
             onClick = { onSelection(null) },
-            label = { Text("Toutes les villes") }
+            label = { Text(stringResource(R.string.filtre_toutes_villes)) }
         )
         villes.forEach { v ->
             FilterChip(

@@ -14,8 +14,8 @@ android {
         applicationId = "com.bmarche.pro"
         minSdk = 24
         targetSdk = 35
-        versionCode = 13
-        versionName = "0.7.3"
+        versionCode = 14
+        versionName = "0.8.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

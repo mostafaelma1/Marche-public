@@ -36,6 +36,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import android.widget.Toast
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.data.model.Domaine
 import com.bmarche.pro.notif.NotificationHelper
 import com.bmarche.pro.share.WhatsApp
@@ -77,8 +79,8 @@ fun ProfilScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         com.bmarche.pro.ui.components.HeroHeader(
-            titre = "Mes alertes",
-            sousTitre = "Configurez vos critères pour être alerté des marchés qui vous concernent."
+            titre = stringResource(com.bmarche.pro.R.string.profil_titre),
+            sousTitre = stringResource(com.bmarche.pro.R.string.profil_sous_titre)
         )
 
         Card(
@@ -127,7 +129,7 @@ fun ProfilScreen(
                 FilterChip(
                     selected = d in state.domaines,
                     onClick = { vm.basculerDomaine(d) },
-                    label = { Text(d.labelFr) }
+                    label = { Text(d.label()) }
                 )
             }
         }

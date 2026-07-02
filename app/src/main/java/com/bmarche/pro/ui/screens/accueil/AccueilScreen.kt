@@ -34,6 +34,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.R
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
@@ -75,15 +78,21 @@ fun AccueilScreen(
         // En-tête sobre + accès au menu latéral.
         item(span = { GridItemSpan(maxLineSpan) }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(R.drawable.logo_bmarche),
+                    contentDescription = null,
+                    modifier = Modifier.size(38.dp)
+                )
+                Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        "Marchés publics",
+                        stringResource(R.string.accueil_titre),
                         style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(2.dp))
                     Text(
-                        "Suivez les appels d'offres et préparez vos soumissions",
+                        stringResource(R.string.accueil_sous_titre),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -91,7 +100,7 @@ fun AccueilScreen(
                 IconButton(onClick = onOuvrirMenu) {
                     Icon(
                         Icons.Filled.Menu,
-                        contentDescription = "Menu",
+                        contentDescription = stringResource(R.string.menu),
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
@@ -118,7 +127,7 @@ fun AccueilScreen(
                     )
                     Spacer(Modifier.width(12.dp))
                     Text(
-                        "Rechercher un marché, un acheteur…",
+                        stringResource(R.string.recherche_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -129,13 +138,13 @@ fun AccueilScreen(
         // Indicateurs clés, compacts.
         item(span = { GridItemSpan(maxLineSpan) }) {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                StatCard("$total", "Marchés actifs", Modifier.weight(1f))
-                StatCard("$urgents", "Clôture ≤ 7 j", Modifier.weight(1f))
-                StatCard("${Region.entries.size}", "Régions", Modifier.weight(1f))
+                StatCard("$total", stringResource(R.string.stat_marches_actifs), Modifier.weight(1f))
+                StatCard("$urgents", stringResource(R.string.stat_cloture_7j), Modifier.weight(1f))
+                StatCard("${Region.entries.size}", stringResource(R.string.stat_regions), Modifier.weight(1f))
             }
         }
 
-        item(span = { GridItemSpan(maxLineSpan) }) { SectionLabel("RÉGIONS") }
+        item(span = { GridItemSpan(maxLineSpan) }) { SectionLabel(stringResource(R.string.section_regions)) }
 
         items(regions, key = { it.name }) { region ->
             RegionCard(
@@ -197,7 +206,7 @@ private fun RegionCard(region: Region, compte: Int, onClick: () -> Unit) {
     ) {
         Column(Modifier.padding(14.dp).fillMaxWidth()) {
             Text(
-                region.labelFr,
+                region.label(),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 minLines = 2,
@@ -214,7 +223,7 @@ private fun RegionCard(region: Region, compte: Int, onClick: () -> Unit) {
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    if (compte == 1) "marché" else "marchés",
+                    if (compte == 1) stringResource(R.string.n_marche) else stringResource(R.string.n_marches),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

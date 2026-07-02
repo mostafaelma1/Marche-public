@@ -12,19 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 /**
- * Système de couleurs « enterprise » — bleu de confiance (#0D6EFD) + vert de réussite
- * (#2ECC71), sur des surfaces claires et neutres. Palette tonale Material 3 complète,
- * pensée pour la lisibilité financière et un rendu premium et sobre.
+ * Système de couleurs de marque, dérivé du logo MB : bleu royal (#0B5FC4) et
+ * orange (#F08300), sur des surfaces claires et neutres. Palette tonale Material 3
+ * complète, pensée pour la lisibilité financière et un rendu premium et sobre.
  */
 private val LightColors = lightColorScheme(
-    primary = Color(0xFF0D6EFD),
+    primary = Color(0xFF1265D6),
     onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFD8E6FF),
-    onPrimaryContainer = Color(0xFF001B45),
-    secondary = Color(0xFF2ECC71),
-    onSecondary = Color(0xFF00391C),
-    secondaryContainer = Color(0xFFB7F5CF),
-    onSecondaryContainer = Color(0xFF00210F),
+    primaryContainer = Color(0xFFD6E5FB),
+    onPrimaryContainer = Color(0xFF05295C),
+    secondary = Color(0xFFF08300),
+    onSecondary = Color(0xFFFFFFFF),
+    secondaryContainer = Color(0xFFFFDDB8),
+    onSecondaryContainer = Color(0xFF4A2800),
     tertiary = Color(0xFF475569),
     onTertiary = Color(0xFFFFFFFF),
     tertiaryContainer = Color(0xFFDCE3EC),
@@ -52,16 +52,16 @@ private val LightColors = lightColorScheme(
     scrim = Color(0xFF000000)
 )
 
-/** Schéma sombre correspondant (bleu nuit sobre). */
+/** Schéma sombre correspondant (bleu nuit sobre, accents du logo). */
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF5B9DFF),
-    onPrimary = Color(0xFF002E6E),
-    primaryContainer = Color(0xFF00458C),
-    onPrimaryContainer = Color(0xFFD8E6FF),
-    secondary = Color(0xFF6FE0A0),
-    onSecondary = Color(0xFF00391C),
-    secondaryContainer = Color(0xFF0C5A31),
-    onSecondaryContainer = Color(0xFFB7F5CF),
+    primary = Color(0xFF9FC4F8),
+    onPrimary = Color(0xFF06316B),
+    primaryContainer = Color(0xFF0A4A9E),
+    onPrimaryContainer = Color(0xFFD6E5FB),
+    secondary = Color(0xFFFFB960),
+    onSecondary = Color(0xFF4A2800),
+    secondaryContainer = Color(0xFF8A5200),
+    onSecondaryContainer = Color(0xFFFFDDB8),
     tertiary = Color(0xFFAEBCCF),
     onTertiary = Color(0xFF1C2A3A),
     tertiaryContainer = Color(0xFF334155),

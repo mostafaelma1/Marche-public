@@ -1,4 +1,83 @@
 <resources>
     <string name="app_name">BMarche Pro</string>
     <string name="app_tagline">Trouvez le bon marché, analysez la concurrence, visez le juste prix.</string>
+
+    <!-- Menu latéral -->
+    <string name="drawer_sous_titre">Marchés publics du Maroc</string>
+    <string name="drawer_tableau_bord">Tableau de bord</string>
+    <string name="drawer_appels_offres">Appels d\'offres</string>
+    <string name="drawer_resultats">Résultats &amp; décisions</string>
+    <string name="drawer_ma_societe">Ma société</string>
+    <string name="drawer_profil">Mon profil &amp; alertes</string>
+    <string name="drawer_fermer">Fermer le menu</string>
+    <string name="drawer_langue">Langue</string>
+
+    <!-- Accueil -->
+    <string name="accueil_titre">Marchés publics</string>
+    <string name="accueil_sous_titre">Suivez les appels d\'offres et préparez vos soumissions</string>
+    <string name="recherche_hint">Rechercher un marché, un acheteur…</string>
+    <string name="stat_marches_actifs">Marchés actifs</string>
+    <string name="stat_cloture_7j">Clôture ≤ 7 j</string>
+    <string name="stat_regions">Régions</string>
+    <string name="section_regions">RÉGIONS</string>
+    <string name="n_marche">marché</string>
+    <string name="n_marches">marchés</string>
+    <string name="menu">Menu</string>
+
+    <!-- Liste -->
+    <string name="liste_titre_tous">Tous les marchés</string>
+    <string name="filtre_tous">Tous</string>
+    <string name="filtre_toutes_villes">Toutes les villes</string>
+    <string name="section_recommandes">Recommandés pour vous (%1$d)</string>
+    <string name="section_tous_marches">Tous les marchés (%1$d)</string>
+    <string name="liste_vide">Aucun marché ne correspond à ces filtres.</string>
+    <string name="retour">Retour</string>
+
+    <!-- Carte marché -->
+    <string name="estimation">Estimation</string>
+    <string name="dernier_jour">Dernier jour</string>
+    <string name="jours_restants">J-%1$d</string>
+    <string name="fav_ajouter">Ajouter aux favoris</string>
+    <string name="fav_retirer">Retirer des favoris</string>
+
+    <!-- Favoris -->
+    <string name="favoris_titre">Mes favoris</string>
+    <string name="favoris_sous_titre">Les marchés que vous suivez de près.</string>
+    <string name="favoris_vide_titre">Aucun favori</string>
+    <string name="favoris_vide_texte">Ajoutez les marchés qui vous intéressent avec le cœur pour les suivre ici.</string>
+
+    <!-- Concurrence -->
+    <string name="concurrence_titre">Concurrence</string>
+    <string name="concurrence_sous_titre">Historique des sociétés, classées par marchés remportés.</string>
+
+    <!-- Prix -->
+    <string name="prix_titre">Prix de référence</string>
+    <string name="prix_sous_titre">Analysez votre prix face à l\'estimation et aux habitudes du secteur.</string>
+
+    <!-- Profil -->
+    <string name="profil_titre">Mes alertes</string>
+    <string name="profil_sous_titre">Configurez vos critères pour être alerté des marchés qui vous concernent.</string>
+
+    <!-- Fiche marché -->
+    <string name="detail_introuvable">Marché introuvable.</string>
+    <string name="detail_acheteur">Acheteur</string>
+    <string name="detail_region">Région</string>
+    <string name="detail_ville">Ville</string>
+    <string name="detail_caution">Caution provisoire</string>
+    <string name="detail_date_limite">Date limite</string>
+    <string name="detail_echeance">Échéance</string>
+    <string name="detail_objet">Objet du marché</string>
+    <string name="detail_contact">Contact</string>
+    <string name="contact_email">Adresse électronique</string>
+    <string name="contact_tel">Téléphone</string>
+    <string name="contact_fax">Télécopieur</string>
+    <string name="btn_analyser_prix">Analyser mon prix</string>
+    <string name="btn_dossier_admin">Dossier administratif — %1$d/%2$d prêt(s)</string>
+    <string name="btn_telecharger_dossier">Télécharger le dossier (%1$s)</string>
+    <string name="btn_generer_docs">Générer les documents (engagement, déclaration…)</string>
+    <string name="btn_partager_whatsapp">Partager sur WhatsApp</string>
+    <string name="detail_concurrence">Analyse de la concurrence</string>
+    <string name="detail_aucun_concurrent">Pas encore de concurrent identifié sur ce type de marché.</string>
+    <string name="detail_rabais_moyen">Rabais moyen des concurrents probables : %1$s</string>
+    <string name="concurrent_stats">%1$d marchés · rabais moyen %2$s</string>
 </resources>

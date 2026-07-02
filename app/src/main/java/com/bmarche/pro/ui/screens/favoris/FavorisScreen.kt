@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
 import com.bmarche.pro.data.model.AppelOffre
 import com.bmarche.pro.data.repository.BMarcheRepository
 import com.bmarche.pro.ui.components.AppelOffreCard
@@ -45,8 +46,8 @@ fun FavorisScreen(
     if (favoris.isEmpty()) {
         EtatVide(
             icone = Icons.Filled.FavoriteBorder,
-            titre = "Aucun favori",
-            sousTitre = "Ajoutez les marchés qui vous intéressent avec le cœur pour les suivre ici.",
+            titre = stringResource(com.bmarche.pro.R.string.favoris_vide_titre),
+            sousTitre = stringResource(com.bmarche.pro.R.string.favoris_vide_texte),
             modifier = modifier,
             contentPadding = contentPadding
         )
@@ -64,8 +65,8 @@ fun FavorisScreen(
     ) {
         item {
             com.bmarche.pro.ui.components.HeroHeader(
-                titre = "Mes favoris",
-                sousTitre = "Les marchés que vous suivez de près."
+                titre = stringResource(com.bmarche.pro.R.string.favoris_titre),
+                sousTitre = stringResource(com.bmarche.pro.R.string.favoris_sous_titre)
             )
         }
         items(favoris, key = { it.id }) { ao ->

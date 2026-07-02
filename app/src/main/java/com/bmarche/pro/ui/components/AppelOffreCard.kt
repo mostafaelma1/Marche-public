@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.R
 import com.bmarche.pro.data.model.AppelOffre
 import com.bmarche.pro.ui.Format
 import com.bmarche.pro.ui.icone
@@ -88,7 +90,7 @@ fun AppelOffreCard(
                 IconButton(onClick = onToggleFavori) {
                     Icon(
                         imageVector = if (estFavori) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                        contentDescription = if (estFavori) "Retirer des favoris" else "Ajouter aux favoris",
+                        contentDescription = if (estFavori) stringResource(R.string.fav_retirer) else stringResource(R.string.fav_ajouter),
                         tint = if (estFavori) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.outline
                     )
@@ -122,7 +124,7 @@ fun AppelOffreCard(
             ) {
                 Column {
                     Text(
-                        "Estimation",
+                        stringResource(R.string.estimation),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -139,7 +141,7 @@ fun AppelOffreCard(
                     else -> PrixCompetitif
                 }
                 Badge(
-                    texte = if (jours == 0L) "Dernier jour" else "J-$jours",
+                    texte = if (jours == 0L) stringResource(R.string.dernier_jour) else stringResource(R.string.jours_restants, jours),
                     couleurFond = couleurEcheance.copy(alpha = 0.10f),
                     couleurTexte = couleurEcheance
                 )

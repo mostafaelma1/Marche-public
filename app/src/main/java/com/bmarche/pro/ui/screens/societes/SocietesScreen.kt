@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.data.model.Societe
 import com.bmarche.pro.ui.Format
@@ -46,8 +48,8 @@ fun SocietesScreen(
     ) {
         item {
             com.bmarche.pro.ui.components.HeroHeader(
-                titre = "Concurrence",
-                sousTitre = "Historique des sociétés, classées par marchés remportés."
+                titre = stringResource(com.bmarche.pro.R.string.concurrence_titre),
+                sousTitre = stringResource(com.bmarche.pro.R.string.concurrence_sous_titre)
             )
         }
         items(societes, key = { it.id }) { soc ->
@@ -82,7 +84,7 @@ private fun SocieteCard(soc: Societe, onClick: () -> Unit) {
                 )
             }
             Text(
-                soc.domaines.joinToString { it.labelFr },
+                soc.domaines.joinToString { it.label() },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
             )

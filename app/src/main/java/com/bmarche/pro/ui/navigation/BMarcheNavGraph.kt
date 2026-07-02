@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bmarche.pro.data.model.Region
 import com.bmarche.pro.data.model.TypePublication
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.ui.screens.accueil.AccueilScreen
 import com.bmarche.pro.ui.screens.checklist.ChecklistScreen
 import com.bmarche.pro.ui.screens.detail.DetailScreen
@@ -98,8 +99,8 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                                     restoreState = true
                                 }
                             },
-                            icon = { Icon(dest.icon, contentDescription = dest.labelFr) },
-                            label = { Text(dest.labelFr) }
+                            icon = { Icon(dest.icon, contentDescription = dest.label()) },
+                            label = { Text(dest.label()) }
                         )
                     }
                 }
@@ -132,7 +133,8 @@ fun BMarcheApp(navController: NavHostController = rememberNavController()) {
                     ?.let { name -> runCatching { Region.valueOf(name) }.getOrNull() }
                 val type = entry.arguments?.getString("type")
                     ?.let { name -> runCatching { TypePublication.valueOf(name) }.getOrNull() }
-                val titre = type?.labelFr ?: region?.labelFr ?: "Tous les marchés"
+                val titre = type?.label() ?: region?.label()
+                    ?: androidx.compose.ui.res.stringResource(com.bmarche.pro.R.string.liste_titre_tous)
                 ListeScreen(
                     region = region,
                     type = type,

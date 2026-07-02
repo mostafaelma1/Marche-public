@@ -1,4 +1,83 @@
 <resources>
     <string name="app_name">بيمارشي برو</string>
     <string name="app_tagline">لقا الصفقة المناسبة، حلّل المنافسة، وصوّب على الثمن الرابح.</string>
+
+    <!-- القائمة الجانبية -->
+    <string name="drawer_sous_titre">الصفقات العمومية بالمغرب</string>
+    <string name="drawer_tableau_bord">لوحة القيادة</string>
+    <string name="drawer_appels_offres">طلبات العروض</string>
+    <string name="drawer_resultats">النتائج والقرارات</string>
+    <string name="drawer_ma_societe">شركتي</string>
+    <string name="drawer_profil">ملفي والتنبيهات</string>
+    <string name="drawer_fermer">إغلاق القائمة</string>
+    <string name="drawer_langue">اللغة</string>
+
+    <!-- الرئيسية -->
+    <string name="accueil_titre">الصفقات العمومية</string>
+    <string name="accueil_sous_titre">تتبّع طلبات العروض وجهّز عروضك</string>
+    <string name="recherche_hint">ابحث عن صفقة أو مشترٍ…</string>
+    <string name="stat_marches_actifs">صفقات نشطة</string>
+    <string name="stat_cloture_7j">تُغلق خلال 7 أيام</string>
+    <string name="stat_regions">الجهات</string>
+    <string name="section_regions">الجهات</string>
+    <string name="n_marche">صفقة</string>
+    <string name="n_marches">صفقات</string>
+    <string name="menu">القائمة</string>
+
+    <!-- اللائحة -->
+    <string name="liste_titre_tous">جميع الصفقات</string>
+    <string name="filtre_tous">الكل</string>
+    <string name="filtre_toutes_villes">جميع المدن</string>
+    <string name="section_recommandes">موصى بها لك (%1$d)</string>
+    <string name="section_tous_marches">جميع الصفقات (%1$d)</string>
+    <string name="liste_vide">لا توجد صفقات مطابقة لهذه المعايير.</string>
+    <string name="retour">رجوع</string>
+
+    <!-- بطاقة الصفقة -->
+    <string name="estimation">التقدير المالي</string>
+    <string name="dernier_jour">آخر أجل اليوم</string>
+    <string name="jours_restants">باقي %1$d يوم</string>
+    <string name="fav_ajouter">أضف إلى المفضلة</string>
+    <string name="fav_retirer">أزل من المفضلة</string>
+
+    <!-- المفضلة -->
+    <string name="favoris_titre">مفضلتي</string>
+    <string name="favoris_sous_titre">الصفقات التي تتابعها عن قرب.</string>
+    <string name="favoris_vide_titre">لا توجد مفضلات</string>
+    <string name="favoris_vide_texte">أضف الصفقات التي تهمّك بالنقر على القلب لتتابعها هنا.</string>
+
+    <!-- المنافسة -->
+    <string name="concurrence_titre">المنافسة</string>
+    <string name="concurrence_sous_titre">سجلّ الشركات مرتّبة حسب الصفقات المحصَّل عليها.</string>
+
+    <!-- الثمن -->
+    <string name="prix_titre">الثمن المرجعي</string>
+    <string name="prix_sous_titre">حلّل ثمنك مقارنةً بالتقدير وعادات القطاع.</string>
+
+    <!-- الملف الشخصي -->
+    <string name="profil_titre">تنبيهاتي</string>
+    <string name="profil_sous_titre">اضبط معاييرك ليتم تنبيهك بالصفقات التي تعنيك.</string>
+
+    <!-- بطاقة تفاصيل الصفقة -->
+    <string name="detail_introuvable">الصفقة غير موجودة.</string>
+    <string name="detail_acheteur">المشتري</string>
+    <string name="detail_region">الجهة</string>
+    <string name="detail_ville">المدينة</string>
+    <string name="detail_caution">الضمانة المؤقتة</string>
+    <string name="detail_date_limite">آخر أجل</string>
+    <string name="detail_echeance">المهلة</string>
+    <string name="detail_objet">موضوع الصفقة</string>
+    <string name="detail_contact">الاتصال</string>
+    <string name="contact_email">البريد الإلكتروني</string>
+    <string name="contact_tel">الهاتف</string>
+    <string name="contact_fax">الفاكس</string>
+    <string name="btn_analyser_prix">حلّل ثمني</string>
+    <string name="btn_dossier_admin">الملف الإداري — جاهز %1$d/%2$d</string>
+    <string name="btn_telecharger_dossier">تحميل الملف (%1$s)</string>
+    <string name="btn_generer_docs">إنشاء الوثائق (التعهد، التصريح…)</string>
+    <string name="btn_partager_whatsapp">مشاركة عبر واتساب</string>
+    <string name="detail_concurrence">تحليل المنافسة</string>
+    <string name="detail_aucun_concurrent">لا يوجد منافس معروف بعد في هذا النوع من الصفقات.</string>
+    <string name="detail_rabais_moyen">متوسط تخفيض المنافسين المحتملين: %1$s</string>
+    <string name="concurrent_stats">%1$d صفقة · متوسط التخفيض %2$s</string>
 </resources>

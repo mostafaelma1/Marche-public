@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.data.model.ChecklistItem
 import com.bmarche.pro.data.model.EtatPiece
 import com.bmarche.pro.ui.repositoryViewModel
@@ -118,7 +119,7 @@ private fun PieceRow(piece: ChecklistItem, etat: EtatPiece, onClick: () -> Unit)
             Column(Modifier.weight(1f)) {
                 Text(piece.libelleFr, style = MaterialTheme.typography.bodyLarge)
                 Text(
-                    etat.labelFr,
+                    etat.label(),
                     style = MaterialTheme.typography.labelMedium,
                     color = couleur,
                     fontWeight = FontWeight.Medium

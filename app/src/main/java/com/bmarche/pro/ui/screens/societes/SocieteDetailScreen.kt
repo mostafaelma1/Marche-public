@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.BMarcheApplication
 import com.bmarche.pro.ui.Format
 import com.bmarche.pro.ui.components.LigneInfo
@@ -68,7 +69,7 @@ fun SocieteDetailScreen(
 
             Text("Secteurs d'activité", style = MaterialTheme.typography.titleMedium)
             Text(
-                soc.domaines.joinToString { it.labelFr },
+                soc.domaines.joinToString { it.label() },
                 style = MaterialTheme.typography.bodyLarge
             )
 

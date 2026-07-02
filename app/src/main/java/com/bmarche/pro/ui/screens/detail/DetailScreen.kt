@@ -41,6 +41,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.res.stringResource
+import com.bmarche.pro.R
+import com.bmarche.pro.ui.label
 import com.bmarche.pro.dossier.DossierGenerator
 import com.bmarche.pro.share.WhatsApp
 import com.bmarche.pro.ui.Format
@@ -88,7 +91,7 @@ fun DetailScreen(
     ) { padding ->
         if (ao == null) {
             Text(
-                "Marché introuvable.",
+                stringResource(R.string.detail_introuvable),
                 modifier = Modifier.padding(padding).padding(24.dp)
             )
             return@Scaffold
@@ -104,34 +107,34 @@ fun DetailScreen(
         ) {
             Text(ao.objet, style = MaterialTheme.typography.headlineSmall)
             Badge(
-                texte = ao.domaine.labelFr,
+                texte = ao.domaine.label(),
                 couleurFond = MaterialTheme.colorScheme.primaryContainer,
                 couleurTexte = MaterialTheme.colorScheme.onPrimaryContainer
             )
 
             Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    LigneInfo("Acheteur", ao.acheteur)
-                    LigneInfo("Région", ao.region.labelFr)
-                    LigneInfo("Ville", ao.ville)
-                    LigneInfo("Estimation", Format.dh(ao.estimationDh))
-                    LigneInfo("Caution provisoire", Format.dh(ao.cautionProvisoireDh))
-                    LigneInfo("Date limite", Format.date(ao.dateLimiteEpoch))
-                    LigneInfo("Échéance", "J-${Format.joursRestants(ao.dateLimiteEpoch)}")
+                    LigneInfo(stringResource(R.string.detail_acheteur), ao.acheteur)
+                    LigneInfo(stringResource(R.string.detail_region), ao.region.label())
+                    LigneInfo(stringResource(R.string.detail_ville), ao.ville)
+                    LigneInfo(stringResource(R.string.estimation), Format.dh(ao.estimationDh))
+                    LigneInfo(stringResource(R.string.detail_caution), Format.dh(ao.cautionProvisoireDh))
+                    LigneInfo(stringResource(R.string.detail_date_limite), Format.date(ao.dateLimiteEpoch))
+                    LigneInfo(stringResource(R.string.detail_echeance), stringResource(R.string.jours_restants, Format.joursRestants(ao.dateLimiteEpoch)))
                 }
             }
 
             if (ao.descriptif.isNotBlank()) {
-                Text("Objet du marché", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.detail_objet), style = MaterialTheme.typography.titleMedium)
                 Text(ao.descriptif, style = MaterialTheme.typography.bodyLarge)
             }
 
             // Coordonnées du maître d'ouvrage (comme sur l'avis).
             if (ao.email.isNotBlank() || ao.telephone.isNotBlank() || ao.telecopieur.isNotBlank()) {
-                Text("Contact", style = MaterialTheme.typography.titleMedium)
-                if (ao.email.isNotBlank()) ContactRow(Icons.Filled.Email, "Adresse électronique", ao.email)
-                if (ao.telephone.isNotBlank()) ContactRow(Icons.Filled.Call, "Téléphone", ao.telephone)
-                if (ao.telecopieur.isNotBlank()) ContactRow(Icons.Filled.Print, "Télécopieur", ao.telecopieur)
+                Text(stringResource(R.string.detail_contact), style = MaterialTheme.typography.titleMedium)
+                if (ao.email.isNotBlank()) ContactRow(Icons.Filled.Email, stringResource(R.string.contact_email), ao.email)
+                if (ao.telephone.isNotBlank()) ContactRow(Icons.Filled.Call, stringResource(R.string.contact_tel), ao.telephone)
+                if (ao.telecopieur.isNotBlank()) ContactRow(Icons.Filled.Print, stringResource(R.string.contact_fax), ao.telecopieur)
             }
 
             // Raccourcis vers les outils.
@@ -140,42 +143,42 @@ fun DetailScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Calculate, contentDescription = null)
-                Text("  Analyser mon prix")
+                Text("  " + stringResource(R.string.btn_analyser_prix))
             }
             OutlinedButton(
                 onClick = { onOuvrirChecklist(ao.id) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Checklist, contentDescription = null)
-                Text("  Dossier administratif — ${state.piecesPretes}/${state.piecesTotal} prêt(s)")
+                Text("  " + stringResource(R.string.btn_dossier_admin, state.piecesPretes, state.piecesTotal))
             }
             FilledTonalButton(
                 onClick = { DossierGenerator.telecharger(context, ao, state.etats) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Download, contentDescription = null)
-                Text("  Télécharger le dossier (${DossierGenerator.formatLabel(ao)})")
+                Text("  " + stringResource(R.string.btn_telecharger_dossier, DossierGenerator.formatLabel(ao)))
             }
             FilledTonalButton(
                 onClick = { onOuvrirDocuments(ao.id) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Description, contentDescription = null)
-                Text("  Générer les documents (engagement, déclaration…)")
+                Text("  " + stringResource(R.string.btn_generer_docs))
             }
             OutlinedButton(
                 onClick = { WhatsApp.partager(context, WhatsApp.texteMarche(ao)) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Icon(Icons.Filled.Chat, contentDescription = null)
-                Text("  Partager sur WhatsApp")
+                Text("  " + stringResource(R.string.btn_partager_whatsapp))
             }
 
             // Analyse concurrence.
-            Text("Analyse de la concurrence", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.detail_concurrence), style = MaterialTheme.typography.titleMedium)
             if (state.concurrents.isEmpty()) {
                 Text(
-                    "Pas encore de concurrent identifié sur ce type de marché.",
+                    stringResource(R.string.detail_aucun_concurrent),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
@@ -187,7 +190,7 @@ fun DetailScreen(
                         )
                     ) {
                         Text(
-                            "Rabais moyen des concurrents probables : ${Format.pct(moy)}",
+                            stringResource(R.string.detail_rabais_moyen, Format.pct(moy)),
                             modifier = Modifier.padding(16.dp),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.SemiBold,
@@ -215,7 +218,7 @@ fun DetailScreen(
                                     Text("  ${soc.nom}", fontWeight = FontWeight.SemiBold)
                                 }
                                 Text(
-                                    "${soc.marchesGagnes} marchés · rabais moyen ${Format.pct(soc.tauxRabaisMoyen)}",
+                                    stringResource(R.string.concurrent_stats, soc.marchesGagnes, Format.pct(soc.tauxRabaisMoyen)),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                 )

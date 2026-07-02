@@ -12,13 +12,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 enum class TopDestination(
     val route: String,
     val labelFr: String,
+    val labelAr: String,
     val icon: ImageVector
 ) {
-    ACCUEIL("accueil", "Accueil", Icons.Filled.Home),
-    FAVORIS("favoris", "Favoris", Icons.Filled.Favorite),
-    SOCIETES("societes", "Concurrence", Icons.Filled.Business),
-    PRIX("prix", "Prix", Icons.Filled.Calculate),
-    PROFIL("profil", "Profil", Icons.Filled.Person)
+    ACCUEIL("accueil", "Accueil", "الرئيسية", Icons.Filled.Home),
+    FAVORIS("favoris", "Favoris", "المفضلة", Icons.Filled.Favorite),
+    SOCIETES("societes", "Concurrence", "المنافسة", Icons.Filled.Business),
+    PRIX("prix", "Prix", "الثمن", Icons.Filled.Calculate),
+    PROFIL("profil", "Profil", "ملفي", Icons.Filled.Person);
+
+    fun label(): String = if (java.util.Locale.getDefault().language == "ar") labelAr else labelFr
 }
 
 /** Destinations secondaires (empilées au-dessus des onglets). */

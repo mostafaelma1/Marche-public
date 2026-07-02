@@ -21,6 +21,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
 import androidx.compose.material.icons.filled.Business
@@ -37,6 +40,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,9 +52,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
+import com.bmarche.pro.R
 import com.bmarche.pro.data.model.TypePublication
+import com.bmarche.pro.ui.estArabe
+import com.bmarche.pro.ui.label
 
 /**
  * Menu latéral « enterprise » à sections repliables : en-tête de marque, navigation
@@ -70,30 +80,21 @@ fun AppDrawerContent(
                 Modifier.padding(start = 20.dp, end = 8.dp, top = 20.dp, bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.primaryContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        Icons.Filled.Gavel,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(22.dp)
-                    )
-                }
+                Image(
+                    painter = painterResource(R.drawable.logo_bmarche),
+                    contentDescription = null,
+                    modifier = Modifier.size(42.dp)
+                )
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(
-                        "BMarche Pro",
+                        stringResource(R.string.app_name),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        "Marchés publics du Maroc",
+                        stringResource(R.string.drawer_sous_titre),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -101,7 +102,7 @@ fun AppDrawerContent(
                 IconButton(onClick = onFermer) {
                     Icon(
                         Icons.Filled.Close,
-                        contentDescription = "Fermer le menu",
+                        contentDescription = stringResource(R.string.drawer_fermer),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -109,13 +110,13 @@ fun AppDrawerContent(
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             Spacer(Modifier.height(8.dp))
 
-            DrawerItem(Icons.Filled.Dashboard, "Tableau de bord") {
+            DrawerItem(Icons.Filled.Dashboard, stringResource(R.string.drawer_tableau_bord)) {
                 onOuvrirOnglet(TopDestination.ACCUEIL)
             }
 
             DrawerSection(
                 icone = Icons.Filled.Gavel,
-                libelle = "Appels d'offres",
+                libelle = stringResource(R.string.drawer_appels_offres),
                 sousEntrees = listOf(
                     TypePublication.MARCHE_PUBLIC,
                     TypePublication.BON_COMMANDE,
@@ -128,7 +129,7 @@ fun AppDrawerContent(
 
             DrawerSection(
                 icone = Icons.Filled.EmojiEvents,
-                libelle = "Résultats & décisions",
+                libelle = stringResource(R.string.drawer_resultats),
                 sousEntrees = listOf(
                     TypePublication.RESULTAT_DEFINITIF,
                     TypePublication.EXTRAIT_PV,
@@ -145,9 +146,9 @@ fun AppDrawerContent(
             )
             Spacer(Modifier.height(8.dp))
 
-            DrawerItem(Icons.Filled.Favorite, "Favoris") { onOuvrirOnglet(TopDestination.FAVORIS) }
-            DrawerItem(Icons.Filled.Business, "Concurrence") { onOuvrirOnglet(TopDestination.SOCIETES) }
-            DrawerItem(Icons.Filled.Calculate, "Prix de référence") { onOuvrirOnglet(TopDestination.PRIX) }
+            DrawerItem(Icons.Filled.Favorite, TopDestination.FAVORIS.label()) { onOuvrirOnglet(TopDestination.FAVORIS) }
+            DrawerItem(Icons.Filled.Business, TopDestination.SOCIETES.label()) { onOuvrirOnglet(TopDestination.SOCIETES) }
+            DrawerItem(Icons.Filled.Calculate, stringResource(R.string.prix_titre)) { onOuvrirOnglet(TopDestination.PRIX) }
 
             Spacer(Modifier.height(8.dp))
             HorizontalDivider(
@@ -156,11 +157,60 @@ fun AppDrawerContent(
             )
             Spacer(Modifier.height(8.dp))
 
-            DrawerItem(Icons.Filled.Apartment, "Ma société", onClick = onOuvrirMaSociete)
-            DrawerItem(Icons.Filled.Person, "Mon profil & alertes") { onOuvrirOnglet(TopDestination.PROFIL) }
+            DrawerItem(Icons.Filled.Apartment, stringResource(R.string.drawer_ma_societe), onClick = onOuvrirMaSociete)
+            DrawerItem(Icons.Filled.Person, stringResource(R.string.drawer_profil)) { onOuvrirOnglet(TopDestination.PROFIL) }
+
+            Spacer(Modifier.height(12.dp))
+            HorizontalDivider(
+                Modifier.padding(horizontal = 20.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
+            // --- Sélecteur de langue FR / AR ---
+            Text(
+                stringResource(R.string.drawer_langue),
+                modifier = Modifier.padding(start = 24.dp, top = 12.dp, bottom = 6.dp),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Row(
+                Modifier.padding(horizontal = 24.dp),
+                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(10.dp)
+            ) {
+                LangueChip("Français", selectionne = !estArabe()) {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("fr"))
+                }
+                LangueChip("العربية", selectionne = estArabe()) {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar"))
+                }
+            }
 
             Spacer(Modifier.height(20.dp))
         }
+    }
+}
+
+/** Pastille de choix de langue. */
+@Composable
+private fun LangueChip(libelle: String, selectionne: Boolean, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(50),
+        color = if (selectionne) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.surface,
+        border = BorderStroke(
+            1.dp,
+            if (selectionne) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.outlineVariant
+        )
+    ) {
+        Text(
+            libelle,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            style = MaterialTheme.typography.labelLarge,
+            color = if (selectionne) MaterialTheme.colorScheme.onPrimaryContainer
+            else MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
@@ -268,7 +318,7 @@ private fun DrawerSection(
                         )
                         Spacer(Modifier.width(12.dp))
                         Text(
-                            type.labelFr,
+                            type.label(),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
