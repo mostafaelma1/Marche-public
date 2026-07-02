@@ -12,19 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 /**
- * Système de couleurs de marque, dérivé du logo MB : bleu royal (#0B5FC4) et
- * orange (#F08300), sur des surfaces claires et neutres. Palette tonale Material 3
- * complète, pensée pour la lisibilité financière et un rendu premium et sobre.
+ * Charte officielle de la marque : bleu #0056C6, orange #F7941D, blanc #FFFFFF,
+ * gris clair #F2F4F7. Palette tonale Material 3 complète, pensée pour la lisibilité
+ * financière et un rendu premium et sobre.
  */
 private val LightColors = lightColorScheme(
-    primary = Color(0xFF1265D6),
+    primary = Color(0xFF0056C6),
     onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFD6E5FB),
-    onPrimaryContainer = Color(0xFF05295C),
-    secondary = Color(0xFFF08300),
-    onSecondary = Color(0xFFFFFFFF),
-    secondaryContainer = Color(0xFFFFDDB8),
-    onSecondaryContainer = Color(0xFF4A2800),
+    primaryContainer = Color(0xFFD8E4FB),
+    onPrimaryContainer = Color(0xFF00214E),
+    secondary = Color(0xFFF7941D),
+    onSecondary = Color(0xFF442A00),
+    secondaryContainer = Color(0xFFFFE3C2),
+    onSecondaryContainer = Color(0xFF442A00),
     tertiary = Color(0xFF475569),
     onTertiary = Color(0xFFFFFFFF),
     tertiaryContainer = Color(0xFFDCE3EC),
@@ -33,35 +33,35 @@ private val LightColors = lightColorScheme(
     onError = Color(0xFFFFFFFF),
     errorContainer = Color(0xFFFEE2E2),
     onErrorContainer = Color(0xFF7F1D1D),
-    background = Color(0xFFF8FAFC),
+    background = Color(0xFFF2F4F7),
     onBackground = Color(0xFF111827),
     surface = Color(0xFFFFFFFF),
     onSurface = Color(0xFF111827),
-    surfaceVariant = Color(0xFFEEF2F7),
+    surfaceVariant = Color(0xFFE9EDF2),
     onSurfaceVariant = Color(0xFF6B7280),
     surfaceContainerLowest = Color(0xFFFFFFFF),
-    surfaceContainerLow = Color(0xFFF8FAFC),
-    surfaceContainer = Color(0xFFF1F5F9),
-    surfaceContainerHigh = Color(0xFFE9EEF4),
-    surfaceContainerHighest = Color(0xFFE2E8F0),
-    outline = Color(0xFFCBD5E1),
-    outlineVariant = Color(0xFFE5E7EB),
+    surfaceContainerLow = Color(0xFFF7F9FB),
+    surfaceContainer = Color(0xFFF2F4F7),
+    surfaceContainerHigh = Color(0xFFECEFF4),
+    surfaceContainerHighest = Color(0xFFE5E9EF),
+    outline = Color(0xFFC9D1DB),
+    outlineVariant = Color(0xFFE3E8EF),
     inverseSurface = Color(0xFF1F2937),
     inverseOnSurface = Color(0xFFF9FAFB),
-    inversePrimary = Color(0xFFAAC7FF),
+    inversePrimary = Color(0xFFACC8F5),
     scrim = Color(0xFF000000)
 )
 
-/** Schéma sombre correspondant (bleu nuit sobre, accents du logo). */
+/** Schéma sombre correspondant (bleu nuit sobre, accents de la charte). */
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF9FC4F8),
-    onPrimary = Color(0xFF06316B),
-    primaryContainer = Color(0xFF0A4A9E),
-    onPrimaryContainer = Color(0xFFD6E5FB),
-    secondary = Color(0xFFFFB960),
-    onSecondary = Color(0xFF4A2800),
-    secondaryContainer = Color(0xFF8A5200),
-    onSecondaryContainer = Color(0xFFFFDDB8),
+    primary = Color(0xFFACC8F5),
+    onPrimary = Color(0xFF002D69),
+    primaryContainer = Color(0xFF004396),
+    onPrimaryContainer = Color(0xFFD8E4FB),
+    secondary = Color(0xFFFFB964),
+    onSecondary = Color(0xFF442A00),
+    secondaryContainer = Color(0xFF8A5500),
+    onSecondaryContainer = Color(0xFFFFE3C2),
     tertiary = Color(0xFFAEBCCF),
     onTertiary = Color(0xFF1C2A3A),
     tertiaryContainer = Color(0xFF334155),

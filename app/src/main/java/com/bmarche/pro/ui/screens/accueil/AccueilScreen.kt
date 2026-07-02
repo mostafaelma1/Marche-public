@@ -97,6 +97,7 @@ fun AccueilScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+                com.bmarche.pro.ui.components.LangueSwitcher(compact = true)
                 IconButton(onClick = onOuvrirMenu) {
                     Icon(
                         Icons.Filled.Menu,

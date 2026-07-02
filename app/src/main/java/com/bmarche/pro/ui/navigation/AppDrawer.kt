@@ -21,8 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apartment
@@ -40,7 +38,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,10 +53,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.os.LocaleListCompat
 import com.bmarche.pro.R
 import com.bmarche.pro.data.model.TypePublication
-import com.bmarche.pro.ui.estArabe
 import com.bmarche.pro.ui.label
 
 /**
@@ -106,6 +101,23 @@ fun AppDrawerContent(
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+            }
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+            // --- Sélecteur de langue, bien visible en tête de menu ---
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    stringResource(R.string.drawer_langue),
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                com.bmarche.pro.ui.components.LangueSwitcher()
             }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             Spacer(Modifier.height(8.dp))
@@ -160,57 +172,8 @@ fun AppDrawerContent(
             DrawerItem(Icons.Filled.Apartment, stringResource(R.string.drawer_ma_societe), onClick = onOuvrirMaSociete)
             DrawerItem(Icons.Filled.Person, stringResource(R.string.drawer_profil)) { onOuvrirOnglet(TopDestination.PROFIL) }
 
-            Spacer(Modifier.height(12.dp))
-            HorizontalDivider(
-                Modifier.padding(horizontal = 20.dp),
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
-
-            // --- Sélecteur de langue FR / AR ---
-            Text(
-                stringResource(R.string.drawer_langue),
-                modifier = Modifier.padding(start = 24.dp, top = 12.dp, bottom = 6.dp),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Row(
-                Modifier.padding(horizontal = 24.dp),
-                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(10.dp)
-            ) {
-                LangueChip("Français", selectionne = !estArabe()) {
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("fr"))
-                }
-                LangueChip("العربية", selectionne = estArabe()) {
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar"))
-                }
-            }
-
             Spacer(Modifier.height(20.dp))
         }
-    }
-}
-
-/** Pastille de choix de langue. */
-@Composable
-private fun LangueChip(libelle: String, selectionne: Boolean, onClick: () -> Unit) {
-    Surface(
-        onClick = onClick,
-        shape = RoundedCornerShape(50),
-        color = if (selectionne) MaterialTheme.colorScheme.primaryContainer
-        else MaterialTheme.colorScheme.surface,
-        border = BorderStroke(
-            1.dp,
-            if (selectionne) MaterialTheme.colorScheme.primary
-            else MaterialTheme.colorScheme.outlineVariant
-        )
-    ) {
-        Text(
-            libelle,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            style = MaterialTheme.typography.labelLarge,
-            color = if (selectionne) MaterialTheme.colorScheme.onPrimaryContainer
-            else MaterialTheme.colorScheme.onSurface
-        )
     }
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="brand_primary">#1265D6</color>
-    <color name="app_background">#F8FAFC</color>
+    <color name="brand_primary">#0056C6</color>
+    <color name="app_background">#F2F4F7</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
